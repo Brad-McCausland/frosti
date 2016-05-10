@@ -6,6 +6,9 @@
 # temp.py
 #
 
+# Written by Limor "Ladyada" Fried for Adafruit Industries, (c) 2015
+# This code is released into the public domain
+
 # Module calulates the temperature
 
 from __future__ import division
