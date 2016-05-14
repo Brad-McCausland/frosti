@@ -78,30 +78,4 @@ def calc_temp():
         print("Temperature: %d degrees C\n" % steinhart)
         print("Temperature: %d degrees F\n" % (steinhart*9/5 + 32))
         
-    #for i in range(0, numSamples):
-    #    samples[i] = readAdc(thermistor0)
-    #    time.sleep(1)
-
-    #for i in range(0, numSamples):
-    #    averageReading += samples[i]
-
-    #average over the number of readings
-    #averageReading = averageReading/numSamples
-    #print("Average analog reading: %d\n" % float(averageReading))
-
-    #convert the average reading into resisitance
-    #averageReading = 1023/averageReading -1
-    #averageReading = seriesResistance/averageReading
-
-    #print("Thermistor resistance: %d\n" % averageReading)
-
-    #steinhart-hart equation
-    #steinhart = averageReading/THERMISTORNOMINAL     # (R/Ro)
-    #steinhart = math.log(steinhart)                  # ln(R/Ro)
-    #steinhart /= BCOEFFICIENT                  #1/B * ln(R/Ro)
-    #steinhart += 1.0/(TEMPERATURENOMINAL + 273.15) # + (1/To)
-    #steinhart = 1.0/steinhart                #Invert
-    #steinhart -= 273.15                        # convert to C
-
-    #print("Temperature: %d degrees C\n" % steinhart)
-    #print("Temperature: %d degrees F\n" % steinhart*9/5 + 32)
+    
