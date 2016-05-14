@@ -75,12 +75,12 @@ def getLogs(logDir,n,f,dayOffset):
 
 #removes week+ old logs
 def cleanLogs(logDir):
-    SevenDays = datetime.timedelta(days = 1825)
+    maxAge = datetime.timedelta(days = 1825)
     logs = os.listdir(logDir)
 
     for log in logs:
         try:
-            if(datetime.datetime.now() - datetime.datetime.strptime(log,"%Y-%m-%d.csv") > SevenDays):
+            if(datetime.datetime.now() - datetime.datetime.strptime(log,"%Y-%m-%d.csv") > maxAge):
                 os.remove(logDir + log)
         except:
             pass
