@@ -75,7 +75,7 @@ def getLogs(logDir,n,f,dayOffset):
 
 #removes week+ old logs
 def cleanLogs(logDir):
-    SevenDays = datetime.timedelta(days = 7)
+    SevenDays = datetime.timedelta(days = 1825)
     logs = os.listdir(logDir)
 
     for log in logs:
