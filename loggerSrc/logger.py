@@ -8,6 +8,8 @@ import os
 
 #Writes readings 1 2 and 3 to file in logDir.
 #CSV files are named with current date y-m-d, timestamps are saved inside file.
+
+#logDir requires trailing slash
 def log(logDir,temp1,temp2,temp3):
     newfile = True
     date = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -21,14 +23,23 @@ def log(logDir,temp1,temp2,temp3):
                os.makedirs(logDir)
            except:
                print("Log directory does not exist and unable to create it")
-               raise
+               return -1
+
+    try:
+        with open(logDir + date + '.csv', 'a', newline='') as csvfile:
+            logWriter = csv.writer(csvfile, delimiter=',')
+            
+            if(newfile):
+                logWriter.writerow(['Timestamp', 'Freezer1 *C', 'Freezer2 *C', 'Freezer3 *C'])
+            logWriter.writerow([datetime.datetime.now().strftime("%H:%M"), temp1, temp2, temp3])
+            
+        return 0
+    except:
+        print("Unable to open file for writing")
+        return -1
         
-    with open(logDir + date + '.csv', 'a', newline='') as csvfile:
-        logWriter = csv.writer(csvfile, delimiter=',')
+
         
-        if(newfile):
-            logWriter.writerow(['Timestamp', 'Freezer1 *C', 'Freezer2 *C', 'Freezer3 *C'])
-        logWriter.writerow([datetime.datetime.now().strftime("%H:%M"), temp1, temp2, temp3])
 
 #returns last n temp values of freezer F (1 to 3) as array
 #returns False boolean on error. 'False' will be last value in list if n is greater than all available logs
@@ -79,9 +90,9 @@ def cleanLogs(logDir):
 #12 hour style
 #datetime.datetime.now().strftime("%Y-%m-%d %I:%M %p")
         
-#testdirectory = "C:\\Users\\Avery\\Desktop\\frosti\\logs\\"                       
-#log(testdirectory,30,40,50)
-
+#testdirectory = "C:\\Users\\Avery\\Desktop\\frosti\\logs\\"                  
+#b = log(testdirectory,30,40,50)
+#print(b)
 #print( getLogs(testdirectory,15,1,0) )
 
 #cleanLogs(testdirectory)
