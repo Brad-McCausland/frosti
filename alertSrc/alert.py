@@ -45,20 +45,19 @@ def send(errorText, scope):
 		return -1
 
 	#send alerts
-	returnval = sms_alert  (sid, token, client, errorText)
-	if returnval == -1:
+	returnval += sms_alert  (sid, token, client, errorText)
+	if returnval == -2:
 		date = datetime.datetime.now()
 		errorFile.write(date.isoformat(" ") + ": Error in sms_alert\n")
 
-	returnval = email_alert(sid, token, client, errorText)
-	if returnval == -2:
-		returnval = -1
+	returnval += email_alert(sid, token, client, errorText)
+	if returnval == -1 or returnval == -3:
 		date = datetime.datetime.now()
 		errorFile.write(date.isoformat(" ") + ": Error in email_alert\n")
 
 	return returnval
 
-#alert mobile users
+#alert mobile users. Return -2 on failure.
 def sms_alert(sid, token, client, errorText):
 
 	returnval = 0
@@ -84,11 +83,11 @@ def sms_alert(sid, token, client, errorText):
 				)
 			except TwilioRestException as e:
 				#note: will return -1 even if only one message fails
-				returnval = -1
+				returnval = -2
 
 	return returnval
 
-#alert email users
+#alert email users. Retiurn -1 on failure.
 def email_alert(sid, token, client, errorText):
 	#read users
 	userFile = open("user_register/email_test.txt", 'r')
@@ -109,7 +108,7 @@ def email_alert(sid, token, client, errorText):
 	try:
 		subprocess.call('echo  ' + "\"" + errorText + "\"" + '| mail -s ' + "\"NEW ALERT FROM FROSTI: \"" + ' ' +  recipString,shell=True)
 	except OSError as e:
-		return -2
+		return -1
 
 	return 0
 		
