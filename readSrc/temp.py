@@ -13,6 +13,7 @@
 
 from __future__ import division
 from thermistor import Thermistor
+from freezer import Freezer
 import read
 
 #Resistance in Ohms at 25 C (50K)
@@ -27,31 +28,45 @@ nominalTemperature = 25
 #don't know if this is correct
 betaCoefficient = 3917.93
 
-#number of thermistors
-numThermistors = 6
+#number of freezers
+numFreezers = 3
+
+#number of thermistors per freezer
+numThermistors = 2
 
 #number of sample for a reading
 numSamples = 10
 
-#list of all thermistors
-thermistorList = []
+#list of all freezers
+freezerList = []
+
+def freezers_init():
+    for i in range(0, numFreezers):
+        newFreezer = Freezer(i)
+        freezerList.append(newFreezer)
 
 def thermistors_init():
-    for i in range(0, numThermistors):
-        newThermistor = Thermistor(i, i)
-        thermistorList.append(newThermistor)
+    idNum = 0
+    for freezer in freezerList:
+        for i in range(0, numThermistors):
+            newThermistor = Thermistor(idNum, idNum)
+            freezer.thermistorList.append(newThermistor)
+            idNum = idNum + 1
 
-# calcTemp()
-#   Function reads values from the appropriate thermistor pin.
-#   Takes an average of the reading.
+# calcTemp(Freezer freezer)
+#   Function reads pin readings for the freezer given
+#   Takes an average of the readings.
 #   Calculates the temperature using B parameter equation:
 #             1/T = 1/T_0 + 1/B*ln(R/R_0)
+#   Returns the average of the two temperatures for the freezer
 #
-def calc_temp():
-    for thermistor in thermistorList:
+def calc_temp(freezerNum):
+
+    for thermistor in freezerList[freezerNum].thermistorList:
         resistance = 0
         steinhart = 0
         
+        #print(type(thermistor) is Thermistor)
         for i in range(0, numSamples):
             thermistor.readings[i] = read.readAdc(thermistor.pinNum, read.SPICLK,
                                                   read.SPIMOSI, read.SPIMISO, read.SPICS)
@@ -61,12 +76,9 @@ def calc_temp():
             thermistor.averageReading += thermistor.readings[i]
             
         thermistor.averageReading /= numSamples
-        print("Average analog reading for Thermistor: %d is %d\n"
-              % (thermistor.iD, float(thermistor.averageReading))) 
 
         resistance = 1023/thermistor.averageReading - 1
         resistance = seriesResistance/resistance
-        print("Thermistor resistance: %d\n" % resistance)
 
         steinhart = resistance/nominalResistance
         steinhart = read.math.log(steinhart)
@@ -75,7 +87,9 @@ def calc_temp():
         steinhart = 1.0/steinhart                #Invert
         steinhart -= 273.15
 
-        print("Temperature: %d degrees C\n" % steinhart)
-        print("Temperature: %d degrees F\n" % (steinhart*9/5 + 32))
-        
+        thermistor.currentTemp = steinhart
     
+    temp1 = freezerList[freezerNum].thermistorList[0].currentTemp
+    temp2 = freezerList[freezerNum].thermistorList[1].currentTemp
+    averageTemp = (temp1 + temp2)/2
+    return averageTemp

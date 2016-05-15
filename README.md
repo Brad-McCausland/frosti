@@ -14,3 +14,16 @@ Freezer-Ready Optimal Sustained Temperature Indicator
 
 5/10/2016
   Added the Logger Module source files.
+
+5/14/2016
+  Added the new Freezer object for use in the Reader Module. A new test script for getting the average temperature for freezer #2 of 3 would be something like:
+    
+    import temp.py
+    
+    read.gpi_init()
+    temp.freezers_init()
+    temp.thermistors_init()
+    temp = temp.calc_temp(1)
+    print("Average temp for freezer 1: %.2f C\n" % temp)
+    
+    
