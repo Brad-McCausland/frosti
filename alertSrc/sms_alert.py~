@@ -1,0 +1,76 @@
+from twilio.rest import TwilioRestClient
+import smtplib
+import subprocess
+
+#alert is the main function to be called from the driver process, and
+#sends the text passed in 'errorText' in an sms and email message to
+#all users in the specified scope. Scope can be either 'freezer',
+#'vivarium', or 'all', and is used to ensure, for example, that users
+#interested only in the freezers will not recieve any messages
+#regarding the vivariums.
+
+def alert(errorText, scope):
+
+	keyFile = open("./keys.txt",'r')
+
+	#read keys from key file and strip newlines (hence [:-1])
+	test_sid   = keyFile.next()[:-1]
+	test_token = keyFile.next()[:-1]
+
+	prod_sid   = keyFile.next()[:-1]
+	prod_token = keyFile.next()[:-1]
+
+	#select keys to use (test or production)
+	sid   = prod_sid
+	token = prod_token
+	client = TwilioRestClient(sid, token)
+
+	#send alerts
+	sms_alert  (sid, token, client, errorText)
+	email_alert(sid, token, client, errorText)
+
+#alert mobile users
+def sms_alert(sid, token, client, errorText):
+	#read users
+	userFile = open("user_register/phone_test.txt", 'r')
+	users = []
+
+	#load file into list
+	for line in userFile:
+		users.append(line)
+
+	for user in users:
+		userList = str.split(user)
+
+		#For each user with the appropriate scope
+		if(userList[1] == "all" or userList[1] == scope):
+			
+			#send an sms if we have a record of their phone number
+			if(userList[0] != "+null"):
+				print "Sent to " + userList[0] + ": " + errorText
+				client.messages.create(
+					to   = userList[0], 
+					from_="+13602153158", 
+					body = "\"" + errorText + "\""
+				)
+
+#alert email users
+def email_alert(sid, token, client, errorText):
+	#read users
+	userFile = open("user_register/email_test.txt", 'r')
+	users = []
+	recipString = ''
+
+	#load file into list
+	for line in userFile:
+		users.append(line)
+
+	for user in users:
+		userList = str.split(user)
+
+		#For each user with the appropriate scope
+		if(userList[1] == "all" or userList[1] == scope):
+			recipString = recipString + userList[0] + " "
+
+	subprocess.call('echo  ' + "\"" + errorText + "\"" + '| mail -s ' + "\"NEW ALERT FROM FROSTI: \"" + ' ' +  recipString,shell=True)
+

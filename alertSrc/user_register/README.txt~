@@ -1,0 +1,3 @@
+This README summarizes the format of users.txt, a text file which contains the info needed to send alerts to registered FROSTI users.
+
+Name        email (can be null)     cell number (can be null)     alerts (freezer, vivarium, or both)
