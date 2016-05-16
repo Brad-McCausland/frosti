@@ -10,24 +10,32 @@ import datetime
 
 #true if active pi
 active = true
+
+#directory of log files
+logDir = ""
     
 def run():
     if active:
+        tempList = []
         for freezer in range (0,3):
             time = datetime.datetime.now()
             temp = read(freezer)
-            n = log(freezer, temp)
-            if n == -1:
-                #error
+            tempList.append(temp)
             if data.temp > -60.0:
                 error = "Warning: Freezer " + freezer + " has reached " + temp + " at " + time + "."
                 n = send(error, "freezer")
                 if n == -1:
                     #email error
+                    print("Email failed to send.")
                 elif n == -2:
                     #text error
+                    print("SMS failed to send.")
                 elif n == -3:
                     #email and text error
+                    print("Email and SMS failed to send.")
+        n = log(logDir, tempList[0], tempList[1], tempList[2])
+        if n == -1:
+            print("error")
         check_partner(other)
 
 def check_partner(other):
@@ -39,8 +47,11 @@ def check_partner(other):
         n = send(error, "all")
         if n == -1:
             #email error
+            print("Email failed to send.")
         elif n == -2:
             #text error
+            print("SMS failed to send.")
         elif n == -3:
             #email and text error
+            print("Email and SMS failed to send.")
     
