@@ -9,8 +9,10 @@ import os
 #Writes readings 1 2 and 3 to file in logDir.
 #CSV files are named with current date y-m-d, timestamps are saved inside file.
 
+logDir = "/home/pi/frosti/logs/"
+
 #logDir requires trailing slash
-def log(logDir,temp1,temp2,temp3):
+def log(temp1,temp2,temp3):
     newfile = True
     date = datetime.datetime.now().strftime("%Y-%m-%d")
 
@@ -38,12 +40,42 @@ def log(logDir,temp1,temp2,temp3):
         print("Unable to open file for writing")
         return -1
         
+#logDir requires trailing slash
+def logg(freezer,temp):
+    tempList= ["","",""]
+    tempList[freezer] = temp
+    newfile = True
+    date = datetime.datetime.now().strftime("%Y-%m-%d")
 
+    if(os.path.exists(logDir + date + '.csv')):
+        newfile = False
+    else:
+        #moved this here because we dont need to check for directory again if we already know todays file exists
+        if(not os.path.exists(logDir)):
+           try:
+               os.makedirs(logDir)
+           except:
+               print("Log directory does not exist and unable to create it")
+               return -1
+
+    try:
+        with open(logDir + date + '.csv', 'a', newline='') as csvfile:
+            logWriter = csv.writer(csvfile, delimiter=',')
+            
+            if(newfile):
+                logWriter.writerow(['Timestamp', 'Freezer1 *C', 'Freezer2 *C', 'Freezer3 *C'])
+            logWriter.writerow([datetime.datetime.now().strftime("%H:%M"), tempList[0], tempList[1], tempList[2]])
+            
+        return 0
+    except:
+        print("Unable to open file for writing")
+        return -1
+        
         
 
 #returns last n temp values of freezer F (1 to 3) as array
 #returns False boolean on error. 'False' will be last value in list if n is greater than all available logs
-def getLogs(logDir,n,f,dayOffset):
+def getLogs(n,f,dayOffset):
     date = datetime.datetime.today() - datetime.timedelta(days = dayOffset)
     date = date.strftime("%Y-%m-%d")
     tempList = []
@@ -91,7 +123,7 @@ def cleanLogs(logDir):
 #datetime.datetime.now().strftime("%Y-%m-%d %I:%M %p")
         
 #testdirectory = "C:\\Users\\Avery\\Desktop\\frosti\\logs\\"                  
-#b = log(testdirectory,30,40,50)
+#b = logg(0,50)
 #print(b)
 #print( getLogs(testdirectory,15,1,0) )
 
