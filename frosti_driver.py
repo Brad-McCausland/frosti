@@ -3,7 +3,7 @@
 # FROSTi Driver
 
 from temp import *
-from log import *
+from logger import *
 from alert import *
 import datetime
 
@@ -24,6 +24,7 @@ def run():
             temp = read(freezer)
             tempList.append(temp)
             if data.temp > -60.0:
+                #need to sleep and retake temp
                 error = "Warning: Freezer " + freezer + " has reached " + temp + " at " + time + "."
                 n = send(error, "freezer")
                 if n == -1:
