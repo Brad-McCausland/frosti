@@ -12,7 +12,7 @@ import os
 logDir = "/home/pi/frosti/logs/"
 
 #logDir requires trailing slash
-def log(temp1,temp2,temp3):
+def log(logDir,temp1,temp2,temp3):
     newfile = True
     date = datetime.datetime.now().strftime("%Y-%m-%d")
 
@@ -40,38 +40,7 @@ def log(temp1,temp2,temp3):
         print("Unable to open file for writing")
         return -1
         
-#logDir requires trailing slash
-def logg(freezer,temp):
-    tempList= ["","",""]
-    tempList[freezer] = temp
-    newfile = True
-    date = datetime.datetime.now().strftime("%Y-%m-%d")
 
-    if(os.path.exists(logDir + date + '.csv')):
-        newfile = False
-    else:
-        #moved this here because we dont need to check for directory again if we already know todays file exists
-        if(not os.path.exists(logDir)):
-           try:
-               os.makedirs(logDir)
-           except:
-               print("Log directory does not exist and unable to create it")
-               return -1
-
-    try:
-        with open(logDir + date + '.csv', 'a', newline='') as csvfile:
-            logWriter = csv.writer(csvfile, delimiter=',')
-            
-            if(newfile):
-                logWriter.writerow(['Timestamp', 'Freezer1 *C', 'Freezer2 *C', 'Freezer3 *C'])
-            logWriter.writerow([datetime.datetime.now().strftime("%H:%M"), tempList[0], tempList[1], tempList[2]])
-            
-        return 0
-    except:
-        print("Unable to open file for writing")
-        return -1
-        
-        
 
 #returns last n temp values of freezer F (1 to 3) as array
 #returns False boolean on error. 'False' will be last value in list if n is greater than all available logs

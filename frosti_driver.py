@@ -12,7 +12,7 @@ import datetime
 active = true
 
 #directory of log files
-logDir = ""
+logDir = "/home/pi/frosti/logs/"
     
 def run():
     if active:
