@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # FROSTi Driver
 
 from temp import *
@@ -9,7 +11,7 @@ import datetime
 #init other
 
 #true if active pi
-active = true
+active = True
 
 #directory of log files
 logDir = "/home/pi/frosti/logs/"
