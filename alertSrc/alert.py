@@ -1,9 +1,11 @@
-from twilio.rest import TwilioRestClient
-from twilio import TwilioRestException
-from twilio import TwilioException
 import smtplib
 import subprocess
 import datetime
+from twilio.rest import TwilioRestClient
+from twilio import TwilioRestException
+from twilio import TwilioException
+#import !/usr/local/lib/python2.7/dist-packages/twilio-5.4.0-py2.7.egg/twilio
+
 
 #send is the main function to be called from the driver process, and
 #sends the text passed in 'errorText' in an sms and email message to
@@ -27,11 +29,11 @@ def send(errorText, scope):
 		return -1
 
 	#read keys from key file and strip newlines (hence [:-1])
-	test_sid   = keyFile.next()[:-1]
-	test_token = keyFile.next()[:-1]
+	test_sid   = keyFile.readline()[:-1]
+	test_token = keyFile.readline()[:-1]
 
-	prod_sid   = keyFile.next()[:-1]
-	prod_token = keyFile.next()[:-1]
+	prod_sid   = keyFile.readline()[:-1]
+	prod_token = keyFile.readline()[:-1]
 
 	#select keys to use (test or production)
 	sid   = prod_sid
