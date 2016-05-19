@@ -43,7 +43,7 @@ def run():
         n = log(logDir, tempList[0], tempList[1], tempList[2])
         if n == -1:
             print("error")
-        check_partner(other)
+        #check_partner(other)
 
 def check_partner(other):
     #ping other
