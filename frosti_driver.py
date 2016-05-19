@@ -23,7 +23,7 @@ def run():
         tempList = []
         for freezer in range (0,3):
             time = datetime.datetime.now()
-            temp = read(freezer)
+            temp = calc_temp(freezer)
             tempList.append(temp)
             if data.temp > -60.0:
                 #need to sleep and retake temp
