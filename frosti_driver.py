@@ -29,7 +29,7 @@ def run():
             tempList.append(temperature)
             if temperature > -60.0:
                 #need to sleep and retake temp
-                error = "Warning: Freezer " + str(freezer) + " has reached " + str(temperature) + " at " + str(time) + "."
+                error = "Warning: Freezer " + str(freezer) + " has reached " + str('%.1f'%(temperature)) + "°C at " + str(time)[10:19] + "."
                 n = send(error, "freezer")
                 if n == -1:
                     #email error
