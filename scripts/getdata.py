@@ -17,8 +17,8 @@ def main():
 
 	message  = "FROSTI data on the day of " + date
 	filename = date+".csv"
-	#path     = "/home/pi/frosti/logs/"+filename
-	path     = "/home/bmcc0605/frosti/frosti/logs/"+filename #test path
+	path     = "/home/pi/frosti/logs/"+filename
+	#path     = "/home/bmcc0605/frosti/frosti/logs/"+filename #test path
 
 	try:
 		subprocess.call('uuencode '+path+' '+filename+' | mail -s NEW MESSAGE FROM FROSTI ' +  email,shell=True)
