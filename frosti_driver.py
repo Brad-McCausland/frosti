@@ -29,7 +29,7 @@ def run():
             tempList.append(temperature)
             if temperature > -60.0:
                 #need to sleep and retake temp
-                error = "Warning: Freezer " + freezer + " has reached " + temperature + " at " + time + "."
+                error = "Warning: Freezer " + str(freezer) + " has reached " + str(temperature) + " at " + str(time) + "."
                 n = send(error, "freezer")
                 if n == -1:
                     #email error
@@ -50,7 +50,7 @@ def check_partner(other):
     if fail:
         #ping again, break if success
         active = true
-        error = "Warning: Pi " + other + " is down. Please replace soon."
+        error = "Warning: Pi " + str(other) + " is down. Please replace soon."
         n = send(error, "all")
         if n == -1:
             #email error
