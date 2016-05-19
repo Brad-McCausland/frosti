@@ -23,11 +23,11 @@ def run():
         tempList = []
         for freezer in range (0,3):
             time = datetime.datetime.now()
-            temp = temp.calc_temp(freezer)
-            tempList.append(temp)
-            if data.temp > -60.0:
+            temperature = temp.calc_temp(freezer)
+            tempList.append(temperature)
+            if temperature > -60.0:
                 #need to sleep and retake temp
-                error = "Warning: Freezer " + freezer + " has reached " + temp + " at " + time + "."
+                error = "Warning: Freezer " + freezer + " has reached " + temperature + " at " + time + "."
                 n = alert.send(error, "freezer")
                 if n == -1:
                     #email error
