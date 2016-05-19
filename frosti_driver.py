@@ -2,9 +2,9 @@
 
 # FROSTi Driver
 
-from readSrc.temp import *
-from loggerSrc.logger import *
-from alertSrc.alert import *
+from readSrc import *
+from loggerSrc import *
+from alertSrc import *
 import datetime
 
 #IP address of other pi
