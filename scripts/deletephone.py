@@ -30,12 +30,12 @@ def main():
 		return
 
 	#read file
-	numberFile = open(os.path.join(os.path.expanduser('~'),"frosti/frosti/alertSrc/user_register/phone.txt"), 'r')
+	numberFile = open(os.path.join(os.path.expanduser('~'),"frostiSrc/alertSrc/user_register/phone.txt"), 'r')
 	lines = numberFile.readlines()
 	numberFile.close()
 
 	#open file for overwriting
-	numberFile = open(os.path.join(os.path.expanduser('~'),"frosti/frosti/alertSrc/user_register/phone.txt"), 'w')
+	numberFile = open(os.path.join(os.path.expanduser('~'),"frostiSrc/alertSrc/user_register/phone.txt"), 'w')
 
 	#boolean set to true if matching number is found. Triggers 'number not found' message
 	found = False
