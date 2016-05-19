@@ -19,7 +19,7 @@ logDir = "/home/pi/frosti/logs/"
     
 def run():
     if active:
-        read.gpi_init()
+        read.gpio_init()
         freezers_init()
         thermistors_init()         
         tempList = []
