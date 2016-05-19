@@ -18,17 +18,17 @@ logDir = "/home/pi/frosti/logs/"
     
 def run():
     if active:
-        freezers_init()
-        thermistors_init()         
+        temp.freezers_init()
+        temp.thermistors_init()         
         tempList = []
         for freezer in range (0,3):
             time = datetime.datetime.now()
-            temp = calc_temp(freezer)
+            temp = temp.calc_temp(freezer)
             tempList.append(temp)
             if data.temp > -60.0:
                 #need to sleep and retake temp
                 error = "Warning: Freezer " + freezer + " has reached " + temp + " at " + time + "."
-                n = send(error, "freezer")
+                n = alert.send(error, "freezer")
                 if n == -1:
                     #email error
                     print("Email failed to send.")
@@ -38,7 +38,7 @@ def run():
                 elif n == -3:
                     #email and text error
                     print("Email and SMS failed to send.")
-        n = log(logDir, tempList[0], tempList[1], tempList[2])
+        n = logger.log(logDir, tempList[0], tempList[1], tempList[2])
         if n == -1:
             print("error")
         check_partner(other)
