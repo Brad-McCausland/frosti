@@ -37,14 +37,14 @@ def main():
 		print "Error: scope '"+scope+"' not recognized (accepted values are 'all', 'freezer', and 'vivarium')"
 		return
 
-	numberFile = open(os.path.join(os.path.expanduser('~'),"frosti/frosti/alertSrc/user_register/phone.txt"), 'a+')
+	numberFile = open(os.path.join(os.path.expanduser('~'),"frostiSrc/alertSrc/user_register/phone.txt"), 'a+')
 
 	for line in numberFile:
 		if number in line:
 			print "Error: This phone number is already registered in our phone directory!"
 			return
 
-	numberFile.write(number+" "+scope)
+	numberFile.write(number+" "+scope+"\n")
 
 	print "Phone number "+number+" will now receive "+scope+" messages!"
 
