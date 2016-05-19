@@ -18,6 +18,8 @@ logDir = "/home/pi/frosti/logs/"
     
 def run():
     if active:
+        freezer_init()
+        thermistor_init()         
         tempList = []
         for freezer in range (0,3):
             time = datetime.datetime.now()
