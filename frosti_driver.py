@@ -60,3 +60,4 @@ def check_partner(other):
             #email and text error
             print("Email and SMS failed to send.")
     
+run()
