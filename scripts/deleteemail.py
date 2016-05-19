@@ -13,12 +13,12 @@ def main():
 
 
 	#read file
-	emailFile = open(os.path.join(os.path.expanduser('~'),"frosti/frosti/alertSrc/user_register/email.txt"), 'r')
+	emailFile = open(os.path.join(os.path.expanduser('~'),"frostiSrc/alertSrc/user_register/email.txt"), 'r')
 	lines = emailFile.readlines()
 	emailFile.close()
 
 	#open file for overwriting
-	emailFile = open(os.path.join(os.path.expanduser('~'),"frosti/frosti/alertSrc/user_register/email.txt"), 'w')
+	emailFile = open(os.path.join(os.path.expanduser('~'),"frostiSrc/alertSrc/user_register/email.txt"), 'w')
 
 	#boolean set to true if matching number is found. Triggers 'number not found' message
 	found = False
