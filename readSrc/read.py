@@ -14,7 +14,7 @@
 import time
 import os
 import math
-import RPi.GPIO as GPIO
+import  python3-rpi.gpio as GPIO
 
 # change these as desired - they're the pins connected from the
 # SPI port on the ADC to the Cobbler
