@@ -2,9 +2,9 @@
 
 # FROSTi Driver
 
-from readSrc import *
-from loggerSrc import *
-from alertSrc import *
+from temp import *
+from logger import *
+from alert import *
 import datetime
 
 #IP address of other pi
@@ -18,17 +18,17 @@ logDir = "/home/pi/frosti/logs/"
     
 def run():
     if active:
-        temp.freezers_init()
-        temp.thermistors_init()         
+        freezers_init()
+        thermistors_init()         
         tempList = []
         for freezer in range (0,3):
             time = datetime.datetime.now()
-            temperature = temp.calc_temp(freezer)
+            temperature = calc_temp(freezer)
             tempList.append(temperature)
             if temperature > -60.0:
                 #need to sleep and retake temp
                 error = "Warning: Freezer " + freezer + " has reached " + temperature + " at " + time + "."
-                n = alert.send(error, "freezer")
+                n = send(error, "freezer")
                 if n == -1:
                     #email error
                     print("Email failed to send.")
@@ -38,7 +38,7 @@ def run():
                 elif n == -3:
                     #email and text error
                     print("Email and SMS failed to send.")
-        n = logger.log(logDir, tempList[0], tempList[1], tempList[2])
+        n = log(logDir, tempList[0], tempList[1], tempList[2])
         if n == -1:
             print("error")
         check_partner(other)
