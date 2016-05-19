@@ -3,6 +3,7 @@
 # FROSTi Driver
 
 from temp import *
+from read import *
 from logger import *
 from alert import *
 import datetime
@@ -18,6 +19,7 @@ logDir = "/home/pi/frosti/logs/"
     
 def run():
     if active:
+        read.gpi_init()
         freezers_init()
         thermistors_init()         
         tempList = []
