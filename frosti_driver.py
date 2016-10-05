@@ -18,16 +18,16 @@ active = True
 logDir = "/home/pi/frosti/logs/"
     
 def run():
-    if active:
-        read.gpio_init()
-        freezers_init()
-        thermistors_init()         
-        tempList = []
-        for freezer in range (0,3):
-            time = datetime.datetime.now()
-            temperature = calc_temp(freezer)
-            tempList.append(temperature)
-            if temperature > -60.0:
+    read.gpio_init()
+    freezers_init()
+    thermistors_init()         
+    tempList = []
+    for freezer in range (0,3):
+        time = datetime.datetime.now()
+        temperature = calc_temp(freezer)
+        tempList.append(temperature)
+        if temperature > -60.0:
+            if active: #moved active check here to ensure logging happens on inactive pi
                 #need to sleep and retake temp
                 error = "Warning: Freezer " + str(freezer) + " has reached " + str('%.1f'%(temperature)) + "*C at " + str(time)[10:19] + "."
                 n = send(error, "freezer")
