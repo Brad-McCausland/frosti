@@ -39,6 +39,8 @@ main( int argc, char **argv) {
 	int n; /* number of characters read */
 	char buf[5]; /* buffer for data from the server */
 
+    FILE* logfile = fopen("logs.txt", "a");
+
 	memset((char *)&sad,0,sizeof(sad)); /* clear ip addr structure */
 	sad.sin_family = AF_INET; /* set family to Internet */
 
@@ -105,13 +107,16 @@ main( int argc, char **argv) {
 
   int diff = abs(((hour - tm.tm_hour)*60) - (tm.tm_min - min));
 
-  printf("%d\n", diff);
+  fprintf(logfile, "%d/%d/%d %d:%d:%d - ", tm.tm_year, tm.tm_mon, tm.tm_mday,
+                                           tm.tm_hour, tm.tm_min, tm.tm_sec);
+
+  fprintf(logfile, "Message recieved: %s", buf);
 
   //raise alert if logs are more than 15 minutes behind
   if(diff > 15){
-    printf("All fucked up\n");
+    fprintf(logfile, "Action: Alert counterpart is down");
   }else{
-    printf("All gooood...\n");
+    fprintf(logfile, "Action: None");
   }
 
   //note '%02d' formatting. This creates leading zeroes to match python dates
