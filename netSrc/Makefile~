@@ -1,9 +1,0 @@
-CC = gcc
-CFLAGS = -Wall -g 
-LDFLAGS = -g
-OBJECTS = CLI.o tokenizer.o
-EXES = CLI
-
-all:
-	gcc -o demo_client demo_client.c
-	gcc -o demo_server demo_server.c
