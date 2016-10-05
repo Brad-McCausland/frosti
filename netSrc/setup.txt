@@ -1,0 +1,5 @@
+The steps necessary to get the netcode running (god forgive me)
+
+-Manually modify logs active/identity file so they aren't identical.
+-Set server to run on startup.
+-Set client to run on a chron. Give ip of other pi and port 8001 as args.
