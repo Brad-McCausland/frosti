@@ -85,6 +85,7 @@ main( int argc, char **argv) {
 
 	/* Connect the socket to the specified server. */
 	if (connect(sd, (struct sockaddr *)&sad, sizeof(sad)) < 0) {
+		fprintf(logfile, "Action: Alert counterpart is unreachable");
 		fprintf(stderr,"connect failed\n");
 		exit(EXIT_FAILURE);
 	}
@@ -107,14 +108,14 @@ main( int argc, char **argv) {
 
   int diff = abs(((hour - tm.tm_hour)*60) - (tm.tm_min - min));
 
-  fprintf(logfile, "%d/%d/%d %d:%d:%d - ", tm.tm_year, tm.tm_mon, tm.tm_mday,
+  fprintf(logfile, "%d/%d/%d %d:%d:%d - ", tm.tm_year + 1900, tm.tm_mon, tm.tm_mday,
                                            tm.tm_hour, tm.tm_min, tm.tm_sec);
 
   fprintf(logfile, "Message recieved: %s", buf);
 
   //raise alert if logs are more than 15 minutes behind
   if(diff > 15){
-    fprintf(logfile, "Action: Alert counterpart is down");
+    fprintf(logfile, "Action: Alert counterpart is reachable, but not running frosti");
   }else{
     fprintf(logfile, "Action: None");
   }
