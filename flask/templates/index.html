@@ -11,6 +11,7 @@
 
 <form action="/addemail" method="post">
   <input type="text" name="newemail"><br>
+  <input type="text" name="scope"><br>
   <input type="submit" value="Add">
 </form>
 
@@ -24,6 +25,13 @@
 {% else %}
 <li>No phone numbers</li>
 {% endfor %}
+
+<form action="/addphone" method="post">
+  <input type="text" name="newphone"><br>
+  <input type="text" name="scope"><br>
+  <input type="submit" value="Add">
+</form>
+
 </ul>
 
 </html>
