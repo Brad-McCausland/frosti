@@ -84,40 +84,34 @@ main( int argc, char **argv) {
 	}
 
 	/* Connect the socket to the specified server. */
-	if (connect(sd, (struct sockaddr *)&sad, sizeof(sad)) < 0) {
-		fprintf(logfile, "Action: Alert counterpart is unreachable");
+	if (connect(sd, (struct sockaddr *)&sad, sizeof(sad)) < 0){ 
+		fprintf(logfile, "Action: Alert counterpart is unreachable\n");
 		fprintf(stderr,"connect failed\n");
 		exit(EXIT_FAILURE);
 	}
 
 	/* Receive timestamp for counterpart's most recent log */
 	n = recv(sd, buf, sizeof(buf), 0);
-  buf[5] = '\0';//insert null byte for some reason
-  buf[2] = '\0';//clobber ':'. Makes minutes and hours readable by atoi
 
-  //isolate separate 
   int hour = atoi(&buf[0]);
   int min  = atoi(&buf[3]);
-
   time_t t = time(NULL);
   struct tm tm = *localtime(&t);
-
-  //test
-  //hour = 18;
-  //min = 5;
-
-  int diff = abs(((hour - tm.tm_hour)*60) - (tm.tm_min - min));
 
   fprintf(logfile, "%d/%d/%d %d:%d:%d - ", tm.tm_year + 1900, tm.tm_mon, tm.tm_mday,
                                            tm.tm_hour, tm.tm_min, tm.tm_sec);
 
-  fprintf(logfile, "Message recieved: %s", buf);
+  buf[5] = '\0';//null terminate response
+  fprintf(logfile, "Message recieved: %s. ", buf);
+  buf[2] = '\0';//clobber ':'. Makes minutes and hours readable by the below
+
+  int diff = abs(((hour - tm.tm_hour)*60) - (tm.tm_min - min));
 
   //raise alert if logs are more than 15 minutes behind
   if(diff > 15){
-    fprintf(logfile, "Action: Alert counterpart is reachable, but not running frosti");
+    fprintf(logfile, "Action: Alert counterpart is up, but not running frosti\n");
   }else{
-    fprintf(logfile, "Action: None");
+    fprintf(logfile, "Action: None\n");
   }
 
   //note '%02d' formatting. This creates leading zeroes to match python dates
