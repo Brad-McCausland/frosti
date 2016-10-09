@@ -12,7 +12,8 @@ import subprocess
 #scipt is a string "script.py"
 def runScript(script,arg1,arg2):
     path = os.path.join(os.path.expanduser('~'),"frostiSrc/scripts/" + script)
-    process = subprocess.Popen([arg1,arg2],stdout=subprocess.PIPE)
+    print(path)
+    process = subprocess.Popen(["python3",path,arg1,arg2],stdout=subprocess.PIPE)
     result = process.stdout.read()
     return result
 
@@ -27,28 +28,27 @@ def readUserData(type):
 mailinglist = readUserData("email.txt")
 phonenumbers = readUserData("phone.txt")
 
-
-replaceThis = "replaceThis"
-
 @app.route('/addemail', methods=['POST'])
-def login():
+def addemail():
     if request.method == 'POST':
         arg1 = request.form['newemail']
         arg2 = request.form['scope']
         result = runScript("addemail.py",arg1,arg2)
+        global mailinglist
+        mailinglist = readUserData("email.txt") #ehhhhhhhhhhhhh
 
-        replaceThis = result
-
+        return result
+        #make real page
         return redirect(url_for('formresult')) #'url_for' wants def name(), not @app.route
 
 @app.route('/addphone', methods=['POST'])
-def login():
+def addphone():
     if request.method == 'POST':
         arg1 = request.form['newphone']
         arg2 = request.form['scope']
         result = runScript("addphone.py",arg1,arg2)
 
-        replaceThis = result
+        return result
 
         return redirect(url_for('formresult')) #'url_for' wants def name(), not @app.route
 
