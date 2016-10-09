@@ -1,0 +1,37 @@
+<html>
+<title>Frosti</title>
+<h2>Registered Email Addresses </h1>
+
+<ul>
+{% for each in mailinglist %}
+<li>{{ each }}</li>
+{% else %}
+<li>Mailing list is empty</li>
+{% endfor %}
+
+<form action="/addemail" method="post">
+  <input type="text" name="newemail"><br>
+  <input type="text" name="scope"><br>
+  <input type="submit" value="Add">
+</form>
+
+</ul>
+
+<h2>Registered Phone Numbers </h1>
+
+<ul>
+{% for each in phonenumbers %}
+<li>{{ each }}</li>
+{% else %}
+<li>No phone numbers</li>
+{% endfor %}
+
+<form action="/addphone" method="post">
+  <input type="text" name="newphone"><br>
+  <input type="text" name="scope"><br>
+  <input type="submit" value="Add">
+</form>
+
+</ul>
+
+</html>

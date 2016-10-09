@@ -93,10 +93,8 @@ main( int argc, char **argv) {
 	/* Receive timestamp for counterpart's most recent log */
 	n = recv(sd, buf, sizeof(buf), 0);
 
-  //isolate separate 
   int hour = atoi(&buf[0]);
   int min  = atoi(&buf[3]);
-
   time_t t = time(NULL);
   struct tm tm = *localtime(&t);
 
@@ -106,10 +104,6 @@ main( int argc, char **argv) {
   buf[5] = '\0';//null terminate response
   fprintf(logfile, "Message recieved: %s. ", buf);
   buf[2] = '\0';//clobber ':'. Makes minutes and hours readable by the below
-
-  //test
-  //hour = 18;
-  //min = 5;
 
   int diff = abs(((hour - tm.tm_hour)*60) - (tm.tm_min - min));
 
