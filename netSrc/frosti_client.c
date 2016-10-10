@@ -40,8 +40,6 @@ main( int argc, char **argv) {
 	char buf[5]; /* buffer for data from the server */
 
         FILE* logfile = fopen("clientlogs.txt", "a");
-        int hour = atoi(&buf[0]);
-        int min  = atoi(&buf[3]);
         time_t t = time(NULL);
         struct tm tm = *localtime(&t);
 
@@ -104,6 +102,8 @@ main( int argc, char **argv) {
   fprintf(logfile, "Message recieved: %s. ", buf);
   buf[2] = '\0';//clobber ':'. Makes minutes and hours readable by the below
 
+  int hour = atoi(&buf[0]);
+  int min  = atoi(&buf[3]);
   int diff = abs(((hour - tm.tm_hour)*60) - (tm.tm_min - min));
 
   //raise alert if logs are more than 15 minutes behind
