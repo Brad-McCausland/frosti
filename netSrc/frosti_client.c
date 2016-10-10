@@ -39,7 +39,7 @@ main( int argc, char **argv) {
 	int n; /* number of characters read */
 	char buf[5]; /* buffer for data from the server */
 
-        FILE* logfile = fopen("logs.txt", "a");
+        FILE* logfile = fopen("clientlogs.txt", "a");
         int hour = atoi(&buf[0]);
         int min  = atoi(&buf[3]);
         time_t t = time(NULL);
