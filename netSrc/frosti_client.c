@@ -39,7 +39,14 @@ main( int argc, char **argv) {
 	int n; /* number of characters read */
 	char buf[5]; /* buffer for data from the server */
 
-    FILE* logfile = fopen("logs.txt", "a");
+        FILE* logfile = fopen("logs.txt", "a");
+        int hour = atoi(&buf[0]);
+        int min  = atoi(&buf[3]);
+        time_t t = time(NULL);
+        struct tm tm = *localtime(&t);
+
+        fprintf(logfile, "%d/%d/%d %d:%d:%d - ", tm.tm_year + 1900, tm.tm_mon, tm.tm_mday,
+                                                 tm.tm_hour, tm.tm_min, tm.tm_sec);
 
 	memset((char *)&sad,0,sizeof(sad)); /* clear ip addr structure */
 	sad.sin_family = AF_INET; /* set family to Internet */
@@ -92,14 +99,6 @@ main( int argc, char **argv) {
 
 	/* Receive timestamp for counterpart's most recent log */
 	n = recv(sd, buf, sizeof(buf), 0);
-
-  int hour = atoi(&buf[0]);
-  int min  = atoi(&buf[3]);
-  time_t t = time(NULL);
-  struct tm tm = *localtime(&t);
-
-  fprintf(logfile, "%d/%d/%d %d:%d:%d - ", tm.tm_year + 1900, tm.tm_mon, tm.tm_mday,
-                                           tm.tm_hour, tm.tm_min, tm.tm_sec);
 
   buf[5] = '\0';//null terminate response
   fprintf(logfile, "Message recieved: %s. ", buf);
