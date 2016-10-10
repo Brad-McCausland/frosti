@@ -28,7 +28,7 @@ def log(logDir,temp1,temp2,temp3):
                return -1
 
     try:
-        with open(logDir + date + '.csv', 'a', newline='') as csvfile:
+        with open(logDir + date + '.csv', 'a+') as csvfile:
             logWriter = csv.writer(csvfile, delimiter=',')
             
             if(newfile):
