@@ -39,7 +39,12 @@ main( int argc, char **argv) {
 	int n; /* number of characters read */
 	char buf[5]; /* buffer for data from the server */
 
-    FILE* logfile = fopen("logs.txt", "a");
+        FILE* logfile = fopen("clientlogs.txt", "a");
+        time_t t = time(NULL);
+        struct tm tm = *localtime(&t);
+
+        fprintf(logfile, "%d/%d/%d %d:%d:%d - ", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+                                                 tm.tm_hour, tm.tm_min, tm.tm_sec);
 
 	memset((char *)&sad,0,sizeof(sad)); /* clear ip addr structure */
 	sad.sin_family = AF_INET; /* set family to Internet */
@@ -84,39 +89,28 @@ main( int argc, char **argv) {
 	}
 
 	/* Connect the socket to the specified server. */
-	if (connect(sd, (struct sockaddr *)&sad, sizeof(sad)) < 0) {
+	if (connect(sd, (struct sockaddr *)&sad, sizeof(sad)) < 0){ 
+		fprintf(logfile, "Action: Alert counterpart is unreachable\n");
 		fprintf(stderr,"connect failed\n");
 		exit(EXIT_FAILURE);
 	}
 
 	/* Receive timestamp for counterpart's most recent log */
 	n = recv(sd, buf, sizeof(buf), 0);
-  buf[5] = '\0';//insert null byte for some reason
-  buf[2] = '\0';//clobber ':'. Makes minutes and hours readable by atoi
 
-  //isolate separate 
+  buf[5] = '\0';//null terminate response
+  fprintf(logfile, "Message recieved: %s. ", buf);
+  buf[2] = '\0';//clobber ':'. Makes minutes and hours readable by the below
+
   int hour = atoi(&buf[0]);
   int min  = atoi(&buf[3]);
-
-  time_t t = time(NULL);
-  struct tm tm = *localtime(&t);
-
-  //test
-  //hour = 18;
-  //min = 5;
-
   int diff = abs(((hour - tm.tm_hour)*60) - (tm.tm_min - min));
-
-  fprintf(logfile, "%d/%d/%d %d:%d:%d - ", tm.tm_year, tm.tm_mon, tm.tm_mday,
-                                           tm.tm_hour, tm.tm_min, tm.tm_sec);
-
-  fprintf(logfile, "Message recieved: %s", buf);
 
   //raise alert if logs are more than 15 minutes behind
   if(diff > 15){
-    fprintf(logfile, "Action: Alert counterpart is down");
+    fprintf(logfile, "Action: Alert counterpart is up, but not running frosti\n");
   }else{
-    fprintf(logfile, "Action: None");
+    fprintf(logfile, "Action: None\n");
   }
 
   //note '%02d' formatting. This creates leading zeroes to match python dates
