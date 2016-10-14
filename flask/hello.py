@@ -34,11 +34,10 @@ def addemail():
         arg2 = request.form['scope']
         result = runScript("addemail.py",arg1,arg2)
         global mailinglist
-        mailinglist = readUserData("email.txt") #ehhhhhhhhhhhhh
+        mailinglist = readUserData("email.txt")
 
-        return result
-        #make real page
-        return redirect(url_for('formresult')) #'url_for' wants def name(), not @app.route
+        #return render_template('result.html',scriptResult="taco",hmm=result)
+        return redirect(url_for('formresult',scriptResult=result)) #'url_for' wants def name(), not @app.route
 
 @app.route('/addphone', methods=['POST'])
 def addphone():
@@ -46,15 +45,20 @@ def addphone():
         arg1 = request.form['newphone']
         arg2 = request.form['scope']
         result = runScript("addphone.py",arg1,arg2)
+        phonenumbers = readUserData("phone.txt")
 
-        return result
-
-        return redirect(url_for('formresult')) #'url_for' wants def name(), not @app.route
+        return redirect(url_for('formresult',scriptResult=result)) #'url_for' wants def name(), not @app.route
 
 #just returning a string right now but this shold be set up as a real page with a template
+#not used now because of some...problem
+#@app.route("/formresult/<scriptResult>")
+#def formresult(scriptResult,hmm):
+#    return render_template('result.html',
+#        scriptResult=scriptResult,hmm=hmm)
+
 @app.route("/formresult")
 def formresult():
-    return replaceThis
+    return render_template('result.html',scriptResult=request.args.get('scriptResult'))
 
 @app.route("/")
 def hello():
