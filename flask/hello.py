@@ -45,6 +45,7 @@ def addphone():
         arg1 = request.form['newphone']
         arg2 = request.form['scope']
         result = runScript("addphone.py",arg1,arg2)
+        global phonenumbers #need this to make main page update properly
         phonenumbers = readUserData("phone.txt")
 
         return redirect(url_for('formresult',scriptResult=result)) #'url_for' wants def name(), not @app.route
