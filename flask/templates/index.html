@@ -1,4 +1,6 @@
+<!DOCTYPE html>
 <html>
+
 <title>Frosti</title>
 <h2>Registered Email Addresses </h1>
 
@@ -10,9 +12,18 @@
 {% endfor %}
 
 <form action="/addemail" method="post">
-  <input type="text" name="newemail"><br>
-  <input type="text" name="scope"><br>
+  <input type="email" name="newemail">
+    <select name = "scope">
+      <option value="all">all</option>
+      <option value="freezer">freezers</option>
+      <option value="vivarium">vivarium</option>
+    </select>
   <input type="submit" value="Add">
+</form>
+
+<form action="/deletemail" method="post"><br>
+  <input type="email" name="deleteemail" placeholder="type email to delete">
+  <input type="submit" value="delete">
 </form>
 
 </ul>
@@ -27,8 +38,12 @@
 {% endfor %}
 
 <form action="/addphone" method="post">
-  <input type="text" name="newphone"><br>
-  <input type="text" name="scope"><br>
+  <input type="tel" pattern="^\d{3}-\d{3}-\d{4}$" placeholder="XXX-XXX-XXXX" name="newphone">
+  <select name = "scope">
+    <option value="all">all</option>
+    <option value="freezer">freezers</option>
+    <option value="vivarium">vivarium</option>
+  </select>
   <input type="submit" value="Add">
 </form>
 
