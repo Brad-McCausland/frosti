@@ -12,7 +12,6 @@ import subprocess
 #scipt is a string "script.py"
 def runScript(script,arg1,arg2):
     path = os.path.join(os.path.expanduser('~'),"frostiSrc/scripts/" + script)
-    print(path)
     process = subprocess.Popen(["python3",path,arg1,arg2],stdout=subprocess.PIPE)
     result = process.stdout.read()
     return result
