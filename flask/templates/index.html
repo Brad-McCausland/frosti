@@ -10,8 +10,12 @@
 {% endfor %}
 
 <form action="/addemail" method="post">
-  <input type="text" name="newemail"><br>
-  <input type="text" name="scope"><br>
+  <input type="text" name="newemail">
+    <select name = "scope">
+      <option value="all">all</option>
+      <option value="freezer">freezers</option>
+      <option value="vivarium">vivarium</option>
+    </select>
   <input type="submit" value="Add">
 </form>
 
@@ -27,8 +31,12 @@
 {% endfor %}
 
 <form action="/addphone" method="post">
-  <input type="text" name="newphone"><br>
-  <input type="text" name="scope"><br>
+  <input type="text" name="newphone">
+  <select name = "scope">
+    <option value="all">all</option>
+    <option value="freezer">freezers</option>
+    <option value="vivarium">vivarium</option>
+  </select>
   <input type="submit" value="Add">
 </form>
 
