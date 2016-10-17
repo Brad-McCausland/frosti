@@ -40,9 +40,9 @@ def run():
                 elif n == -3:
                     #email and text error
                     print("Email and SMS failed to send.")
-        n = log(logDir, tempList[0], tempList[1], tempList[2])
-        if n == -1:
-            print("error")
+    n = log(logDir, tempList[0], tempList[1], tempList[2])
+    if n == -1:
+        print("error")
         #check_partner(other)
 
 def check_partner(other):
