@@ -39,7 +39,7 @@ main( int argc, char **argv) {
 	int n; /* number of characters read */
 	char buf[5]; /* buffer for data from the server */
 
-        FILE* logfile = fopen("clientlogs.txt", "a");
+        FILE* logfile = fopen("/home/pi/frosti/logs/clientlogs.txt", "a");
         time_t t = time(NULL);
         struct tm tm = *localtime(&t);
 
