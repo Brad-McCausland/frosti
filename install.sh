@@ -27,11 +27,11 @@ else
 
 	#start frosti_server on bootup
 	cd /etc/init.d/
-	touch startFrostiServer.sh
-	echo "#!/bin/sh" >> startFrostiServer.sh
-	echo "/home/pi/frosti/netSrc/frosti_server 8001" >> startFrostiServer.sh
-	chmod +x frosti_server.sh
-	update-rc.d startFrostiServer.sh defaults
+	sudo touch startFrostiServer.sh
+	sudo echo "#!/bin/sh" >> startFrostiServer.sh
+	sudo echo "/home/pi/frosti/netSrc/frosti_server 8001" >> startFrostiServer.sh
+	sudo chmod +x startFrosti_server.sh
+	sudo update-rc.d startFrostiServer.sh defaults
 
 	#set cron jobs
 	cd ~
@@ -47,4 +47,5 @@ else
 	rm mycron
 
 	#set timezone
-	echo "America/Vancouver" > /etc/timezone
+	sudo echo "America/Vancouver" > /etc/timezone
+fi
