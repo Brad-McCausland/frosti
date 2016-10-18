@@ -105,7 +105,7 @@ int main(int argc, char **argv) {
     struct tm tm = *localtime(&t);
 
     //note '%02d' formatting. This creates leading zeroes to match python dates
-    sprintf(path, "../../logs/%d-%02d-%02d.csv", tm.tm_year+1900, tm.tm_mon+1, tm.tm_mday);
+    sprintf(path, "/home/pi/frosti/logs/%d-%02d-%02d.csv", tm.tm_year+1900, tm.tm_mon+1, tm.tm_mday);
     //printf("%s\n", path);
 
     FILE* stream = fopen(path, "r");
