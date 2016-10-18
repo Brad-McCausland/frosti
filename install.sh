@@ -11,7 +11,7 @@ cd /etc/init.d/
 touch startFrostiServer.sh
 echo "#!/bin/sh" >> startFrostiServer.sh
 echo "/home/pi/frosti/netSrc/frosti_server 8001" >> startFrostiServer.sh
-chmod +x startFrosti_server.sh
+chmod +x startFrostiServer.sh
 update-rc.d startFrostiServer.sh defaults
 
 #set timezone
