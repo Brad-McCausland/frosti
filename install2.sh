@@ -31,3 +31,5 @@ fi
 echo "*/15 * * * * /home/pi/frosti/netSrc/frosti_client 127.0.0.1 8001" >> mycron
 crontab mycron
 rm mycron
+
+echo "cron job added. Don't forget to enter my counterpart's ip in crontab!"
