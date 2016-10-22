@@ -1,0 +1,108 @@
+@charset "utf-8";
+body {
+    background-color: #f2f2f2;
+    font-family: Verdana, Geneva, sans-serif font-size: 14px;
+    color: #000;
+}
+
+table {
+    margin: auto;
+}
+
+td, th {
+    text-align: center;
+    font-size: 14px;
+    font-family: Verdana, Geneva, sans-serif;
+    color: #000;
+}
+
+h1.stuff {
+    text-alight: center;
+    color: #069;
+    background-color: #F3C;
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+h1.stuff:hover {
+    text-alight: center;
+    color: #069;
+    background-color: #3CC;
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+span.center {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+    height: auto;
+    white-space: nowrap;
+}
+
+a.navbar {
+    display: block;
+    background-color: #CCC;
+    text-align: center;
+    color: #000;
+    height: 40px;
+    width: 200px;
+    float: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 18px;
+    white-space: nowrap;
+}
+
+a.navbar:hover {
+    background-color: #6CC;
+    height: 40px;
+    width: 200px;
+}
+
+p {
+    text-alight: center;
+    color: #003;
+    font-family: Verdana, Geneva, sans-serif;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+div.logo {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: auto;
+}
+
+div.center-justified {
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+    height: auto;
+    white-space: nowrap;
+}
+
+h1 {
+    color: #069;
+    text-align: center;
+    font-family: Verdana, Geneva, sans-serif;
+}
+
+h2 {
+    color: #069;
+    text-align: center;
+}
+
+h3 {
+    color: #069;
+    text-align: center;
+    font-family: monospace;
+}
+
+ul {
+    color: #069;
+    text-align: justify;
+    ;
+    margin: auto;
+    list-style-position: inside;
+    font-family: monospace;
+}
