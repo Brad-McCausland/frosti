@@ -20,6 +20,9 @@ def runScript(script,args):
     result = process.stdout.read()
     return result
 
+#Generic read for user_register info. Might should move to own file
+#with methods instead of strings since phone needs processed anyway and the only
+#other one is email
 def readUserData(type):
     list = []
     file = open(os.path.join(os.path.expanduser('~'),"frostiSrc/alertSrc/user_register/" + type), 'r')
@@ -28,8 +31,15 @@ def readUserData(type):
             list.append(line.split(' ')[0])
     return list
 
+#processes phone numbers so human can read properly
+def readPhoneData():
+    list = []
+    for number in readUserData("phone.txt"):
+        list.append(number[2:5] + '-' + number[5:8] + '-' + number[8:])
+    return list
+
 mailinglist = readUserData("email.txt")
-phonenumbers = readUserData("phone.txt")
+phonenumbers = readPhoneData()
 
 @app.route('/addemail', methods=['POST'])
 def addemail():
@@ -65,6 +75,16 @@ def addphone():
 
         return redirect(url_for('formresult',scriptResult=result)) #'url_for' wants def name(), not @app.route
 
+@app.route('/deletephone', methods=['POST'])
+def deletephone():
+    if request.method == 'POST':
+        arg1 = request.form['deletephone']
+        result = runScript("deletephone.py",[arg1])
+        global phonenumbers
+        phonenumbers = readUserData("phone.txt")
+
+        #return render_template('result.html',scriptResult="taco",hmm=result)
+        return redirect(url_for('formresult',scriptResult=result)) #'url_for' wants def name(), not @app.route
 #just returning a string right now but this shold be set up as a real page with a template
 #not used now because of some...problem
 #@app.route("/formresult/<scriptResult>")
