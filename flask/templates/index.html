@@ -1,8 +1,41 @@
 <!DOCTYPE html>
 <html>
 
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+</head>
+
 <title>Frosti</title>
-<h2>Registered Email Addresses </h1>
+
+<div class="logo">
+    <h3><pre>
+      __________  ____  ____________
+      / ____/ __ \/ __ \/ ___/_  __(_)
+    / /_  / /_/ / / / /\__ \ / / / /
+  / __/ / _, _/ /_/ /___/ // / / /
+/_/   /_/ |_|\____//____//_/ /_/
+   </pre>
+</h3>
+</div>
+
+<span class="center">
+     <p>
+     <table border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td><a class="navbar" href="/"><strong>Home</strong></a></td>
+<td><a class="navbar" href="page2"><strong>Page 2</strong></a></td>
+</tr>
+
+</table>
+
+
+
+     </p>
+   </span>
+
+<div class="center-justified">
+    <h2>Registered Email Addresses </h1>
+
 
 <ul>
 {% for each in mailinglist %}
@@ -47,6 +80,11 @@
   <input type="submit" value="Add">
 </form>
 
-</ul>
+<form action="/deletephone" method="post"><br>
+  <input type="tel" pattern="^\d{3}-\d{3}-\d{4}$" placeholder="type phone number to delete" name="deletephone">
+  <input type="submit" value="delete">
+</form>
 
+</ul>
+</div>
 </html>
