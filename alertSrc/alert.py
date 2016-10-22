@@ -19,7 +19,7 @@ def send(errorText, scope):
 
 	returnval = 0
 
-	errorFile = open("./errorlog.txt",'a')
+	errorFile = open("/home/pi/frosti/logs/alertlogs.txt",'a')
 
 	try:
 		keyFile = open("./keys.txt",'r')

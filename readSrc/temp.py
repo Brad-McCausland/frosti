@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 
 # Scott St. John
 # 4/24/16 
@@ -20,7 +20,7 @@ import read
 nominalResistance = 50000
 
 #the value of the 'other' resistor
-seriesResistance = 10000  
+seriesResistance = 10000000  
 
 #25 degress C
 nominalTemperature = 25
@@ -29,9 +29,13 @@ nominalTemperature = 25
 betaCoefficient = 3917.93
 
 #number of freezers
+#number 0,1 are same/small freezer
+#number 2 is the star wars freezer
 numFreezers = 3
 
 #number of thermistors per freezer
+#thermistors 0-3 belong to small freezer
+#thermistors 4-5 belong to star wars freezer
 numThermistors = 2
 
 #number of sample for a reading
