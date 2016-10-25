@@ -44,22 +44,5 @@ def run():
     if n == -1:
         print("error")
         #check_partner(other)
-
-def check_partner(other):
-    #ping other
-    if fail:
-        #ping again, break if success
-        active = true
-        error = "Warning: Pi " + str(other) + " is down. Please replace soon."
-        n = send(error, "all")
-        if n == -1:
-            #email error
-            print("Email failed to send.")
-        elif n == -2:
-            #text error
-            print("SMS failed to send.")
-        elif n == -3:
-            #email and text error
-            print("Email and SMS failed to send.")
     
 run()
