@@ -8,6 +8,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 
 #define QLEN 6 /* size of request queue */
 int visits = 0; /* counts client connections */
