@@ -28,7 +28,7 @@ then
 else
 	echo "*/5 * * * * python /home/pi/frosti/testDriver.py" >> mycron
 fi
-echo "*/15 * * * * /home/pi/frosti/netSrc/frosti_client 127.0.0.1 8001" >> mycron
+echo "1-59/15 * * * * /home/pi/frosti/netSrc/frosti_client 127.0.0.1 8001" >> mycron
 
 #The idea here is to send a message at noon on the 1st and 15th of each month. Might be bad syntax
 echo "0 12 1,15 * * python /home/pi/frosti/alertSrc/twilioKeepAlive.py" >> mycron
