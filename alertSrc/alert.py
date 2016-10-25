@@ -22,11 +22,14 @@ def send(errorText, scope):
 	errorFile = open("/home/pi/frosti/logs/alertlogs.txt",'a')
 
 	try:
-		keyFile = open("./keys.txt",'r')
+		keyFile = open("/home/pi/frosti/alertSrc/keys.txt",'r')
 	except IOError:
 		date = datetime.datetime.now()
 		errorFile.write(date.isoformat(" ") + ": Could not find key file\n")
 		return -1
+	
+	date = datetime.datetime.now()
+	errorFile.write(date.isoformat(" ") + ": Alert module called\n")
 
 	#read keys from key file and strip newlines (hence [:-1])
 	test_sid   = keyFile.readline()[:-1]
@@ -56,7 +59,7 @@ def send(errorText, scope):
 	if returnval == -1 or returnval == -3:
 		date = datetime.datetime.now()
 		errorFile.write(date.isoformat(" ") + ": Error in email_alert\n")
-
+		
 	return returnval
 
 #alert mobile users. Return -2 on failure.
@@ -64,7 +67,7 @@ def sms_alert(sid, token, client, errorText):
 
 	returnval = 0
 	#read users
-	userFile = open("user_register/phone_test.txt", 'r')
+	userFile = open("/home/pi/frosti/alertSrc/user_register/phone_test.txt", 'r')
 	users = []
 
 	#load file into list
@@ -92,7 +95,7 @@ def sms_alert(sid, token, client, errorText):
 #alert email users. Retiurn -1 on failure.
 def email_alert(sid, token, client, errorText):
 	#read users
-	userFile = open("user_register/email_test.txt", 'r')
+	userFile = open("/home/pi/frosti/alertSrc/user_register/email_test.txt", 'r')
 	users = []
 	recipString = ''
 
