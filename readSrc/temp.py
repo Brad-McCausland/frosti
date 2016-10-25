@@ -39,7 +39,7 @@ numFreezers = 3
 numThermistors = 2
 
 #number of sample for a reading
-numSamples = 10
+numSamples = 50
 
 #list of all freezers
 freezerList = []
@@ -74,7 +74,7 @@ def calc_temp(freezerNum):
         for i in range(0, numSamples):
             thermistor.readings[i] = read.readAdc(thermistor.pinNum, read.SPICLK,
                                                   read.SPIMOSI, read.SPIMISO, read.SPICS)
-            read.time.sleep(1)
+            read.time.sleep(0.1)
             
         for i in range(0, numSamples):
             thermistor.averageReading += thermistor.readings[i]
