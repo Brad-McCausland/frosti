@@ -108,12 +108,24 @@ int main(int argc, char **argv) {
     sprintf(path, "/home/pi/frosti/logs/%d-%02d-%02d.csv", tm.tm_year+1900, tm.tm_mon+1, tm.tm_mday);
     //printf("%s\n", path);
 
-    FILE* stream = fopen(path, "r");
     char line[64];
-    while (fgets(line, 64, stream))
-    {
-      char* tmp = strdup(line);
+    /*check to see if file exists, if it does
+      not then spoof the current time. This
+      happens sometimes at midnight if the server
+      is contacted before the driver can complete
+      it's logging, causing a segfault and crashing
+      the server if not handled properly.*/
+    if( access( path, F_OK ) != -1 ) {
+        FILE* stream = fopen(path, "r");
+        while (fgets(line, 64, stream))
+        {
+            char* tmp = strdup(line);
+        }
+    }else{
+        //file does not exist (midnight). Spoof current time.
+        sprintf(line, "%d:%d", tm.tm_hour, tm.tm_min);
     }
+
     
 
     //isolate time value
