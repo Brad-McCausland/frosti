@@ -91,7 +91,7 @@ main( int argc, char **argv) {
 	/* Connect the socket to the specified server. */
 	if (connect(sd, (struct sockaddr *)&sad, sizeof(sad)) < 0){ 
 		fprintf(logfile, "Action: Alert counterpart is unreachable\n");
-		execvp("python hardwareAlert.py 'Alert: Frosti is not responding to redundancy checks and appears to be powered down.'");
+		system("python hardwareAlert.py 'Alert: Frosti is not responding to redundancy checks and appears to be powered down.'");
 		fprintf(stderr,"connect failed\n");
 		exit(EXIT_FAILURE);
 	}
@@ -109,7 +109,7 @@ main( int argc, char **argv) {
 
   //raise alert if logs are more than 15 minutes behind
   if(diff > 15){
-    execvp("python hardwareAlert.py 'Alert: Frosti is active but is not recording temperatures.'");
+    system("python hardwareAlert.py 'Alert: Frosti is active but is not recording temperatures.'");
     fprintf(logfile, "Action: Alert counterpart is up, but not running frosti\n");
   }else{
     fprintf(logfile, "Action: None\n");
