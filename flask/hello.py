@@ -101,4 +101,4 @@ def hello():
     return render_template('index.html',mailinglist=mailinglist,phonenumbers=phonenumbers)
 
 if __name__ == "__main__":
-    app.run(host='140.160.44.116',port=5000)
+    app.run(host='0.0.0.0',port=5000)
