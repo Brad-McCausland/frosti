@@ -3,14 +3,15 @@
 #Specifically the alert module.
 
 import sys
-import os
-
-sys.path.insert(0, "../alertSrc/")
+import datetime
 
 from alert import *
 
-os.chdir("../alertSrc/")
-
 message = sys.argv[1]
 
+date = datetime.datetime.now()
+errorFile = open("/home/pi/frosti/logs/hardwarealertlogs.txt",'a')
+errorFile.write(date.isoformat(" ") + ": Hardware alert with message: '" + message + "'\n")
+
 send(message, "all")
+
