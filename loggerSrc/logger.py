@@ -42,7 +42,9 @@ def log(logDir,temp1,temp2,temp3):
         
 
 
-#returns last n temp values of freezer F (1 to 3) as array
+#returns last (most recent) n temp values of  from freezer F (1 to 3) as array.
+# Optional dayOffset to see past days
+#Will include data from additional days/csvs if n large enough
 #returns False boolean on error. 'False' will be last value in list if n is greater than all available logs
 def getLogs(n,f,dayOffset):
     date = datetime.datetime.today() - datetime.timedelta(days = dayOffset)
