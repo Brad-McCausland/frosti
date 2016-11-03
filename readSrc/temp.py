@@ -26,7 +26,7 @@ seriesResistance = 10000000
 nominalTemperature = 25
 
 #don't know if this is correct
-betaCoefficient = 3917.93
+betaCoefficient = 2938.94
 
 #number of freezers
 #number 0,1 are same/small freezer
