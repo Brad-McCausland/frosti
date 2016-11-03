@@ -82,7 +82,7 @@ def calc_temp(freezerNum):
         thermistor.averageReading /= numSamples
 
         resistance = 1023/thermistor.averageReading - 1
-        resistance = seriesResistance/resistance
+        resistance = seriesResistance * resistance
 
         steinhart = resistance/nominalResistance
         steinhart = read.math.log(steinhart)
