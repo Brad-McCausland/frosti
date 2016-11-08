@@ -1,11 +1,23 @@
 #!/usr/bin/python3
 
-# FROSTi Driver
+# FROSTi Passive Driver
+# This driver is a neutered version of the full frosti driver,
+# originally designed for testing and now used to spoof an
+# active driver on a pi without read access to the thermistors.
+# This is needed because redundancy checking was designed with
+# two active pis in mind, and though that's not currently
+# feasible I've decided to not change the design in the hope
+# that one day the two active pi design will be implemented.
+#
+# This version operates the same as the active driver, but
+# instead of reading from thermistors it just injects '-80.0'
+# for each thermistor in all read operations.
 
-from temp import *
-from read import *
-from logger import *
-from alert import *
+from readSrc.temp import *
+from readSrc.read import *
+from loggerSrc.logger import *
+from alertSrc.alert import *
+
 import datetime
 
 #IP address of other pi
@@ -16,7 +28,7 @@ active = True
 
 #directory of log files
 logDir = "/home/pi/frosti/logs/"
-    
+
 def run():
     read.gpio_init()
     freezers_init()
@@ -26,7 +38,7 @@ def run():
         time = datetime.datetime.now()
         temperature = calc_temp(freezer)
         tempList.append(temperature)
-        if temperature > -60.0:
+        if temperature > -70.0:
             if active: #moved active check here to ensure logging happens on inactive pi
                 #need to sleep and retake temp
                 error = "Warning: Freezer " + str(freezer) + " has reached " + str('%.1f'%(temperature)) + "*C at " + str(time)[10:19] + "."
@@ -43,6 +55,5 @@ def run():
     n = log(logDir, tempList[0], tempList[1], tempList[2])
     if n == -1:
         print("error")
-        #check_partner(other)
     
 run()
