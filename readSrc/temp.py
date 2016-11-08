@@ -81,9 +81,16 @@ def calc_temp(freezerNum):
             
         thermistor.averageReading /= numSamples
 
-        resistance = 1023/thermistor.averageReading - 1
-        resistance = seriesResistance * resistance
-
+        #resistance = 1023/thermistor.averageReading - 1
+        resistance = 1023/(thermistor.averageReading - 1)
+        #resistance = seriesResistance * resistance
+        resistance = seriesResistance / resistance
+        
+        if(freezerNum == 2):
+            betaCoefficient = calc_beta_alt(resistance)
+        else:
+            betaCoefficient = calc_beta(resistance)
+                
         steinhart = resistance/nominalResistance
         steinhart = read.math.log(steinhart)
         steinhart /= betaCoefficient
@@ -97,3 +104,38 @@ def calc_temp(freezerNum):
     temp2 = freezerList[freezerNum].thermistorList[1].currentTemp
     averageTemp = (temp1 + temp2)/2
     return averageTemp
+
+def calc_temp_simple(resistance, beta):
+    steinhart = resistance/nominalResistance
+    steinhart = read.math.log(steinhart)
+    steinhart /= beta
+    steinhart += 1.0/(nominalTemperature + 273.15) # + (1/To)
+    steinhart = 1.0/steinhart                #Invert
+    steinhart -= 273.15
+    return steinhart
+
+def calc_beta(resistance):
+    acceptedBetas = []
+    step = 0.10
+    i = 0
+    beta = 1000.00
+    while beta < 4500:
+        temp = calc_temp_simple(resistance, beta)
+        if temp < -79.99 and temp > -80.01:
+            acceptedBetas.append(beta)
+        beta = beta + step
+    finalBeta = sum(acceptedBetas)/len(acceptedBetas)
+    return finalBeta
+
+def calc_beta_alt(resistance):
+    acceptedBetas = []
+    step = 0.10
+    i = 0
+    beta = 1000.00
+    while beta < 4500:
+        temp = calc_temp_simple(resistance, beta)
+        if temp < -82.99 and temp > -83.01:
+            acceptedBetas.append(beta)
+        beta = beta + step
+    finalBeta = sum(acceptedBetas)/len(acceptedBetas)
+    return finalBeta
