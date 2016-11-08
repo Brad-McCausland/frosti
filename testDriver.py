@@ -36,7 +36,7 @@ def run():
     tempList = []
     for freezer in range (0,3):
         time = datetime.datetime.now()
-        temperature = calc_temp(freezer)
+        temperature = -80.0 #only difference
         tempList.append(temperature)
         if temperature > -70.0:
             if active: #moved active check here to ensure logging happens on inactive pi
