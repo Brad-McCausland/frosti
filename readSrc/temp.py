@@ -44,6 +44,9 @@ numSamples = 50
 #list of all freezers
 freezerList = []
 
+#array of beta coefficients
+betas = [2498.05, 2501.01, 2556.60, 2537.25, 2621.25, 2649.95]
+
 def freezers_init():
     for i in range(0, numFreezers):
         newFreezer = Freezer(i)
@@ -86,10 +89,11 @@ def calc_temp(freezerNum):
         #resistance = seriesResistance * resistance
         resistance = seriesResistance / resistance
         
-        if(freezerNum == 2):
-            betaCoefficient = calc_beta_alt(resistance)
-        else:
-            betaCoefficient = calc_beta(resistance)
+        #if(freezerNum == 2):
+            #betaCoefficient = calc_beta_alt(resistance)
+        #else:
+            #betaCoefficient = calc_beta(resistance)
+        betaCoefficient = betas[freezerNum]
                 
         steinhart = resistance/nominalResistance
         steinhart = read.math.log(steinhart)
