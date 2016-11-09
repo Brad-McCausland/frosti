@@ -25,9 +25,6 @@ seriesResistance = 10000000
 #25 degress C
 nominalTemperature = 25
 
-#don't know if this is correct
-betaCoefficient = 2938.94
-
 #number of freezers
 #number 0,1 are same/small freezer
 #number 2 is the star wars freezer
@@ -84,16 +81,10 @@ def calc_temp(freezerNum):
             
         thermistor.averageReading /= numSamples
 
-        #resistance = 1023/thermistor.averageReading - 1
         resistance = 1023/(thermistor.averageReading - 1)
-        #resistance = seriesResistance * resistance
         resistance = seriesResistance / resistance
         
-        #if(freezerNum == 2):
-            #betaCoefficient = calc_beta_alt(resistance)
-        #else:
-            #betaCoefficient = calc_beta(resistance)
-        betaCoefficient = betas[freezerNum]
+        betaCoefficient = betas[thermistor.pinNum]
                 
         steinhart = resistance/nominalResistance
         steinhart = read.math.log(steinhart)
