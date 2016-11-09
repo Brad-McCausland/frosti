@@ -129,7 +129,7 @@ def calc_beta_alt(resistance):
     beta = 1000.00
     while beta < 4500:
         temp = calc_temp_simple(resistance, beta)
-        if temp < -82.99 and temp > -83.01:
+        if temp < -83.99 and temp > -84.01:
             acceptedBetas.append(beta)
         beta = beta + step
     finalBeta = sum(acceptedBetas)/len(acceptedBetas)
