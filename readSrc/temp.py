@@ -42,7 +42,8 @@ numSamples = 50
 freezerList = []
 
 #array of beta coefficients
-betas = [2498.05, 2501.01, 2556.60, 2537.25, 2621.25, 2649.95]
+#betas = [2498.05, 2501.01, 2556.60, 2537.25, 2621.25, 2649.95]
+betas = [2477.0875, 2484.90, 2546.20, 2527.6625, 2598.3125, 2622.7625]
 
 def freezers_init():
     for i in range(0, numFreezers):
