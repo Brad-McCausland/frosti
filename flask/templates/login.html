@@ -19,6 +19,14 @@
 </div>
 
 
+<div class="errpr">
+  {% block body %}
+  {% if error %}
+    <p class=error><strong>Error:</strong> {{ error }}
+  {% endif %}
+  {% endblock %}
+</div>
+
 <div class="container">
   <p>
     <form style="font-size:large;font-family:monospace" action="/login" method="post">
@@ -27,6 +35,7 @@
       <input type="checkbox" name="rememberme">Remember Me<br>
       <input type="submit" value="Login">
     </form>
+
   </p>
 </div>
 

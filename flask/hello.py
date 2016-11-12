@@ -3,6 +3,7 @@ from flask_login import LoginManager, UserMixin, login_required, login_user, log
 import flask
 
 import os
+import json
 #import sys
 import time
 import subprocess
@@ -16,15 +17,19 @@ login_manager.init_app(app)
 login_manager.login_view = "login"
 
 class User(UserMixin):
-    user_database = {"Admin": ("Admin", "adminpassword"),
-               "Admin2": ("Admin2", "megagoodpassword")}
+
+    def load_database():
+        f = open("users.txt")
+        user_database = json.load(f)
+        return user_database
+
     def __init__(self, username, password):
         self.id = username
         self.password = password
 
     @classmethod
     def get(cls,id):
-        return cls.user_database.get(id)
+        return cls.load_database().get(id)
 
 #this thing needs to find user from db, create instance of and return it.
 @login_manager.user_loader
@@ -57,8 +62,9 @@ def login():
 
             return flask.redirect(flask.url_for('hello'))
 
-    flash('Login Failed')
-    return flask.redirect(flask.url_for('login'))
+    #flash('Login Failed')
+    error = 'Incorrect username or password'
+    return render_template('login.html',error=error)
 
 @app.route('/logout')
 def logout():
