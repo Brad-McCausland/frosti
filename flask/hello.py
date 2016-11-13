@@ -1,14 +1,16 @@
-from flask import Flask, flash, request, render_template, redirect, url_for
-from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
-import flask
+from flask import Flask, flash, request, render_template, redirect, url_for, Response
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
 
+import flask
+import random
 import os
 import json
-#import sys
+import sys
 import time
 import subprocess
 
-
+sys.path.insert(0,"/mnt/e/Dropbox/frostiGit/frosti/loggerSrc")
+import logger
 app=flask.Flask(__name__)
 
 login_manager = LoginManager()
@@ -37,12 +39,12 @@ def load_user(id):
     user = User.get(id)
     return User(user[0],user[1])
 
-#path = sys.path[0] #sys.path[0] is directory script was launched from
-
 @app.route('/login',methods=['GET','POST'])
 def login():
     #This checks for the username in the 'database'.
     if request.method == 'GET':
+        if current_user.is_authenticated:
+            return flask.redirect(flask.url_for('frosti'))
         return render_template('login.html')
 
     username = request.form['username']
@@ -59,10 +61,8 @@ def login():
             login_user(user, remember = rememberme)
             flash('Login Successful')
             next = flask.request.args.get('next')
-
             return flask.redirect(flask.url_for('hello'))
 
-    #flash('Login Failed')
     error = 'Incorrect username or password'
     return render_template('login.html',error=error)
 
@@ -100,31 +100,20 @@ def readPhoneData():
         list.append(number[2:5] + '-' + number[5:8] + '-' + number[8:])
     return list
 
-mailinglist = readUserData("email.txt")
-phonenumbers = readPhoneData()
-
 @app.route('/addemail', methods=['POST'])
 def addemail():
     if request.method == 'POST':
         arg1 = request.form['newemail']
         arg2 = request.form['scope']
         result = runScript("addemail.py",[arg1,arg2])
-        global mailinglist
-        mailinglist = readUserData("email.txt")
-
-        #return render_template('result.html',scriptResult="taco",hmm=result)
-        return redirect(url_for('formresult',scriptResult=result)) #'url_for' wants def name(), not @app.route
+        return redirect(url_for('formresult',scriptResult=result))
 
 @app.route('/deletemail', methods=['POST'])
 def deletemail():
     if request.method == 'POST':
         arg1 = request.form['deleteemail']
         result = runScript("deleteemail.py",[arg1])
-        global mailinglist
-        mailinglist = readUserData("email.txt")
-
-        #return render_template('result.html',scriptResult="taco",hmm=result)
-        return redirect(url_for('formresult',scriptResult=result)) #'url_for' wants def name(), not @app.route
+        return redirect(url_for('formresult',scriptResult=result))
 
 @app.route('/addphone', methods=['POST'])
 def addphone():
@@ -132,41 +121,51 @@ def addphone():
         arg1 = request.form['newphone']
         arg2 = request.form['scope']
         result = runScript("addphone.py",[arg1,arg2])
-        global phonenumbers #need this to make main page update properly
-        phonenumbers = readUserData("phone.txt")
-
-        return redirect(url_for('formresult',scriptResult=result)) #'url_for' wants def name(), not @app.route
+        return redirect(url_for('formresult',scriptResult=result))
 
 @app.route('/deletephone', methods=['POST'])
 def deletephone():
     if request.method == 'POST':
         arg1 = request.form['deletephone']
         result = runScript("deletephone.py",[arg1])
-        global phonenumbers
-        phonenumbers = readUserData("phone.txt")
-
-        #return render_template('result.html',scriptResult="taco",hmm=result)
         return redirect(url_for('formresult',scriptResult=result)) #'url_for' wants def name(), not @app.route
-#just returning a string right now but this shold be set up as a real page with a template
-#not used now because of some...problem
-#@app.route("/formresult/<scriptResult>")
-#def formresult(scriptResult,hmm):
-#    return render_template('result.html',
-#        scriptResult=scriptResult,hmm=hmm)
 
 @app.route("/formresult")
 def formresult():
     return render_template('result.html',scriptResult=request.args.get('scriptResult'))
 
-@app.route("/templogin")
-def templogin():
-    return render_template('login.html')
+#replace this with a call to indefinite
+#firefox works fine with a real "stream", but chrome wont update until the script is done.?!
+@app.route('/graph_stream')
+def gstream():
+    def foo():
+        x = 0
+        while(x<1):
+            time.sleep(1)
+            yield(str(-random.randint(78,81)).rstrip()+',')
+            x+=1
+    return app.response_class(foo(), mimetype='text/plain')
+
+@app.route("/graphs")
+@login_required
+def graphs():
+    dates = logger.getLogs(10,0,0)
+    f1 = logger.getLogs(10,1,0)
+    f2 = logger.getLogs(10,2,0)
+    f3 = logger.getLogs(10,3,0)
+    return render_template('graphs.html',f1=f1,f2=f2,f3=f3,dates=dates)
+
+@app.route("/frosti")
+@login_required
+def frosti():
+    mailinglist = readUserData("email.txt")
+    phonenumbers = readPhoneData()
+    return render_template('index.html',mailinglist=mailinglist,phonenumbers=phonenumbers)
 
 @app.route("/")
-@login_required
 def hello():
-    return render_template('index.html',mailinglist=mailinglist,phonenumbers=phonenumbers)
+    return flask.redirect(flask.url_for('login'))
 
 if __name__ == "__main__":
     app.config["SECRET_KEY"] = '%hwgS\x13\x97\xf4\xee\xf8\xa8< \x11\xd1*\xe8\xecV\x95\xfbeY\xbe'
-    app.run(host='0.0.0.0',port=5000)
+    app.run(host='0.0.0.0',port=5000,threaded=True)

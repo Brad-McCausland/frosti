@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+    <script src="//www.chartjs.org/assets/Chart.min.js"></script>
+</head>
+
+<title>Frosti</title>
+
+<div class="logo">
+    <h3><pre>
+      __________  ____  ____________
+      / ____/ __ \/ __ \/ ___/_  __(_)
+    / /_  / /_/ / / / /\__ \ / / / /
+  / __/ / _, _/ /_/ /___/ // / / /
+/_/   /_/ |_|\____//____//_/ /_/
+   </pre>
+</h3>
+</div>
+
+<span class="center">
+     <p>
+     <table border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td><a class="navbar" href="/"><strong>Home</strong></a></td>
+<td><a class="navbar" href="/graphs"><strong>Graphs</strong></a></td>
+<td><a class="navbar" href="/logout"><strong>Logout</strong></a></td>
+</tr>
+
+</table>
+
+<body>
+  <div class = "container">
+  <canvas id="liveGraph" width="800" height="300"></canvas>
+  <script>
+var canvas = document.getElementById('liveGraph'),
+    canvasContext = canvas.getContext('2d'),
+    startingData = {
+      labels: {{dates|safe}},
+      datasets: [
+
+          {
+              fillColor: "rgba(220,220,220,0)",
+              strokeColor: "rgba(151,230,205,1)",
+              pointColor: "rgba(151,230,205,1)",
+              pointStrokeColor: "#fff",
+              data: {{f1|safe}}
+          },
+          {
+              fillColor: "rgba(220,220,220,0)",
+              strokeColor: "rgba(151,187,205,1)",
+              pointColor: "rgba(151,187,205,1)",
+              pointStrokeColor: "#fff",
+              data: {{f2|safe}}
+          },
+          {
+              fillColor: "rgba(220,220,220,0)",
+              strokeColor: "rgba(200,187,205,1)",
+              pointColor: "rgba(151,187,205,1)",
+              pointStrokeColor: "#fff",
+              data: {{f3|safe}}
+          }
+      ]
+    }//,
+  //  latestLabel = 0
+
+var myLiveChart = new Chart(canvasContext).Line(startingData, {animationSteps: 5});
+
+//wrapped whole thing so that it makes a new request every time.
+//using a real "stream" doesnt work right because chrome likes to not update page
+//until the stream is over for some reason
+setInterval(function(){
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '{{ url_for('gstream') }}');
+    xhr.send();
+    var position = 0;
+
+    setInterval(function(){
+      var messages = xhr.responseText.split(',');
+      messages.slice(position, -1).forEach(function(value) {
+      myLiveChart.addData([parseInt(value),parseInt(value)+1,parseInt(value)-1], "live");
+      myLiveChart.removeData();
+      });
+      position = messages.length - 1;
+
+      if (xhr.readyState == XMLHttpRequest.DONE)
+          clearInterval(timer);//stops checking for data
+
+    }, 500);
+
+},1000); //every second makes new call to stream because CHROME DOENST UPDATE
+
+
+</script>
+
+</div>
+
+
+</body>
+
+
+
+</html>

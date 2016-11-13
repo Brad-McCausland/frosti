@@ -1,7 +1,7 @@
 @charset "utf-8";
 body {
     background-color: #f2f2f2;
-    font-family: Verdana,  sans-serif font-size: 14px;
+    font-family: Verdana, sans-serif font-size: 14px;
     color: #000;
 }
 
@@ -12,22 +12,8 @@ table {
 td, th {
     text-align: center;
     font-size: 14px;
-    font-family: Verdana,  sans-serif;
+    font-family: Verdana, sans-serif;
     color: #000;
-}
-
-h1.stuff {
-    text-alight: center;
-    color: #069;
-    background-color: #F3C;
-    font-family: Verdana, sans-serif;
-}
-
-h1.stuff:hover {
-    text-alight: center;
-    color: #069;
-    background-color: #3CC;
-    font-family: Verdana, sans-serif;
 }
 
 span.center {
@@ -59,24 +45,22 @@ a.navbar:hover {
 }
 
 p {
-    text-alight: center;
+    text-align: center;
     color: #003;
     font-family: Verdana, sans-serif;
     margin-right: auto;
     margin-left: auto;
 }
 
-.error{
-  font-family: Verdana;
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  -moz-transform: translateX(-50%) translateY(-50%);
-  -webkit-transform: translateX(-50%) translateY(-50%);
-  transform: translateX(-50%) translateY(-50%);
+.error {
+    font-family: Verdana;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
 }
-
-
 
 div.logo {
     position: fixed;
@@ -102,11 +86,10 @@ div.center-justified {
     transform: translateX(-50%) translateY(-50%);
 }
 
-
 h1 {
     color: #069;
     text-align: center;
-    font-family: Verdana,  sans-serif;
+    font-family: Verdana, sans-serif;
 }
 
 h2 {
