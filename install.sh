@@ -44,3 +44,8 @@ sudo echo "AuthPass=frosti492" >> /etc/ssmtp/ssmtp.conf
 sudo echo "UseTLS=Yes" >> /etc/ssmtp/ssmtp.conf
 sudo echo "UseSTARTTLS=Yes" >> /etc/ssmtp/ssmtp.conf
 sudo echo "AuthLogin=Yes" >> /etc/ssmtp/ssmtp.conf
+
+#install pip3 and flask for web portal
+sudo apt-get install python3-pip
+sudo pip3 install flask
+sudo pip3 install flask_login
