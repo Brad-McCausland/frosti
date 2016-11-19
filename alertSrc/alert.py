@@ -15,7 +15,7 @@ from twilio import TwilioException
 #example: freezer temperatue alerts should be called with the
 #'freezer' scope variable. See test.py for proper use.
 
-#Returns authenticated twilio rest object 
+#Returns authenticated twilio rest object
 def authenticate(errorFile):
 
 	try:
@@ -41,7 +41,8 @@ def authenticate(errorFile):
 
 	try:
 		client = TwilioRestClient(sid, token)
-		return client
+		return sid, token, client
+
 	except TwilioException as e:
 		date = datetime.datetime.now()
 		errorFile.write(date.isoformat(" ") + ": Could not register Twilio client\n")
@@ -53,10 +54,11 @@ def send(errorText, scope):
 
 	errorFile = open("/home/pi/frosti/logs/alertlogs.txt",'a')
 
-	client = authenticate(errorFile)
+	sid, token, client = authenticate(errorFile)
 
 	#send alerts
 	returnval += sms_alert  (sid, token, client, errorText)
+
 	if returnval == -2:
 		date = datetime.datetime.now()
 		errorFile.write(date.isoformat(" ") + ": Error in sms_alert\n")
