@@ -15,11 +15,8 @@ from twilio import TwilioException
 #example: freezer temperatue alerts should be called with the
 #'freezer' scope variable. See test.py for proper use.
 
-def send(errorText, scope):
-
-	returnval = 0
-
-	errorFile = open("/home/pi/frosti/logs/alertlogs.txt",'a')
+#Returns authenticated twilio rest object 
+def authenticate(errorFile):
 
 	try:
 		keyFile = open("/home/pi/frosti/alertSrc/keys.txt",'r')
@@ -27,7 +24,7 @@ def send(errorText, scope):
 		date = datetime.datetime.now()
 		errorFile.write(date.isoformat(" ") + ": Could not find key file\n")
 		return -1
-	
+
 	date = datetime.datetime.now()
 	errorFile.write(date.isoformat(" ") + ": Alert module called\n")
 
@@ -44,10 +41,19 @@ def send(errorText, scope):
 
 	try:
 		client = TwilioRestClient(sid, token)
+		return client
 	except TwilioException as e:
 		date = datetime.datetime.now()
 		errorFile.write(date.isoformat(" ") + ": Could not register Twilio client\n")
 		return -1
+
+def send(errorText, scope):
+
+	returnval = 0
+
+	errorFile = open("/home/pi/frosti/logs/alertlogs.txt",'a')
+
+	client = authenticate(errorFile)
 
 	#send alerts
 	returnval += sms_alert  (sid, token, client, errorText)
@@ -59,7 +65,7 @@ def send(errorText, scope):
 	if returnval == -1 or returnval == -3:
 		date = datetime.datetime.now()
 		errorFile.write(date.isoformat(" ") + ": Error in email_alert\n")
-		
+
 	return returnval
 
 #alert mobile users. Return -2 on failure.
@@ -82,8 +88,8 @@ def sms_alert(sid, token, client, errorText):
 
 			try:
 				client.messages.create(
-					to   = userList[0], 
-					from_="+13609001272", 
+					to   = userList[0],
+					from_="+13609001272",
 					body = "\"" + errorText + "\""
 				)
 			except TwilioRestException as e:
@@ -116,5 +122,3 @@ def email_alert(sid, token, client, errorText):
 		return -1
 
 	return 0
-		
-
