@@ -9,7 +9,7 @@ import sys
 import time
 import subprocess
 
-sys.path.insert(0,"/mnt/e/Dropbox/frostiGit/frosti/loggerSrc")
+sys.path.insert(0,"/home/pi/frosti/loggerSrc")
 import logger
 app=flask.Flask(__name__)
 
@@ -74,7 +74,7 @@ def logout():
 #scipt is a string "script.py"
 def runScript(script,args):
 
-    path = os.path.join(os.path.expanduser('~'),"frostiSrc/scripts/" + script)
+    path = os.path.join(os.path.expanduser('~'),"frosti/scripts/" + script)
     command = ["python3",path]
     for each in args:
         command.append(each)
@@ -87,7 +87,7 @@ def runScript(script,args):
 #other one is email
 def readUserData(type):
     list = []
-    file = open(os.path.join(os.path.expanduser('~'),"frostiSrc/alertSrc/user_register/" + type), 'r')
+    file = open(os.path.join(os.path.expanduser('~'),"frosti/alertSrc/user_register/" + type), 'r')
     for line in file:
         if line != '\n':
             list.append(line.split(' ')[0])
