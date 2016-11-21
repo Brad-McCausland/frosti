@@ -75,7 +75,7 @@ def sms_alert(sid, token, client, errorText):
 
 	returnval = 0
 	#read users
-	userFile = open("/home/pi/frosti/alertSrc/user_register/phone_test.txt", 'r')
+	userFile = open("/home/pi/frosti/alertSrc/user_register/phone.txt", 'r')
 	users = []
 
 	#load file into list
@@ -103,7 +103,7 @@ def sms_alert(sid, token, client, errorText):
 #alert email users. Retiurn -1 on failure.
 def email_alert(sid, token, client, errorText):
 	#read users
-	userFile = open("/home/pi/frosti/alertSrc/user_register/email_test.txt", 'r')
+	userFile = open("/home/pi/frosti/alertSrc/user_register/email.txt", 'r')
 	users = []
 	recipString = ''
 
