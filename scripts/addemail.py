@@ -18,7 +18,7 @@ def main():
 		print ("Error: scope '"+scope+"' not recognized (accepted values are 'all', 'freezer', and 'vivarium')")
 		return
 
-	emailFile = open(os.path.join(os.path.expanduser('~'),"frostiSrc/alertSrc/user_register/email.txt"), 'a+')
+	emailFile = open(os.path.join(os.path.expanduser('~'),"frosti/alertSrc/user_register/email.txt"), 'a+')
 
 	for line in emailFile:
 		if address in line:
