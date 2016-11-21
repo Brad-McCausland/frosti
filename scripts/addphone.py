@@ -37,7 +37,7 @@ def main():
 		print ("Error: scope '"+scope+"' not recognized (accepted values are 'all', 'freezer', and 'vivarium')")
 		return
 
-	numberFile = open(os.path.join(os.path.expanduser('~'),"frostiSrc/alertSrc/user_register/phone.txt"), 'a+')
+	numberFile = open(os.path.join(os.path.expanduser('~'),"frosti/alertSrc/user_register/phone.txt"), 'a+')
 
 	for line in numberFile:
 		if number in line:
