@@ -52,18 +52,18 @@ def send(errorText, scope):
 
 	returnval = 0
 
-	errorFile = open("/home/pi/frosti/logs/alertlogs.txt",'a')
+	errorFile = open("/home/pi/frosti-testing/frosti/logs/alertlogs.txt",'a')
 
 	sid, token, client = authenticate(errorFile)
 
 	#send alerts
-	returnval += sms_alert  (sid, token, client, errorText)
+	#returnval += sms_alert  (sid, token, client, errorText)
 
 	if returnval == -2:
 		date = datetime.datetime.now()
 		errorFile.write(date.isoformat(" ") + ": Error in sms_alert\n")
 
-	returnval += email_alert(sid, token, client, errorText)
+	#returnval += email_alert(sid, token, client, errorText)
 	if returnval == -1 or returnval == -3:
 		date = datetime.datetime.now()
 		errorFile.write(date.isoformat(" ") + ": Error in email_alert\n")

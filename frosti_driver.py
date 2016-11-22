@@ -27,7 +27,7 @@ import datetime
 active = True
 
 #directory of log files
-logDir = "/home/pi/frosti/logs/"
+logDir = "/home/pi/frosti-testing-frosti/logs/"
 
 def run():
     read.gpio_init()
