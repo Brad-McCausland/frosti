@@ -70,27 +70,6 @@ var myLiveChart = new Chart(canvasContext).Line(startingData, {animationSteps: 5
 //wrapped whole thing so that it makes a new request every time.
 //using a real "stream" doesnt work right because chrome likes to not update page
 //until the stream is over for some reason
-setInterval(function(){
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '{{ url_for('gstream') }}');
-    xhr.send();
-    var position = 0;
-
-    setInterval(function(){
-      var messages = xhr.responseText.split(',');
-      messages.slice(position, -1).forEach(function(value) {
-      myLiveChart.addData([parseInt(value),parseInt(value)+1,parseInt(value)-1], "live");
-      myLiveChart.removeData();
-      });
-      position = messages.length - 1;
-
-      if (xhr.readyState == XMLHttpRequest.DONE)
-          clearInterval(timer);//stops checking for data
-
-    }, 500);
-
-},1000); //every second makes new call to stream because CHROME DOENST UPDATE
 
 
 </script>

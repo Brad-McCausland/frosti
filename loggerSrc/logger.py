@@ -8,8 +8,8 @@ import os
 
 #Writes readings 1 2 and 3 to file in logDir.
 #CSV files are named with current date y-m-d, timestamps are saved inside file.
-
-logDir = "/home/pi/frosti/logs/"
+rootdir = os.path.abspath("..")
+logDir = rootdir+"/logs/"
 
 #logDir requires trailing slash
 def log(logDir,temp1,temp2,temp3):

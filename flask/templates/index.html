@@ -3,6 +3,7 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 
 <title>Frosti</title>
@@ -32,9 +33,9 @@
      </p>
    </span>
 
+<body>
 <div class="center-justified">
-    <h2>Registered Email Addresses </h1>
-
+<h2>Registered Email Addresses </h1>
 
 <ul>
 {% for each in mailinglist %}
@@ -62,12 +63,22 @@
 
 <h2>Registered Phone Numbers </h1>
 
-<ul>
+<div class="center-justified">
+  <ul id="phonenumbers">
+  <h3 id="loadingmessage">
+    Loading...
+  </h3>
+</div>
+<form action="https://www.twilio.com/console/phone-numbers/verified" method="post"><br>
+  <input type="submit" value="Register Phones at Twilio">
+</form>
+<!--
 {% for each in phonenumbers %}
 <li>{{ each }}</li>
 {% else %}
 <li>No phone numbers</li>
 {% endfor %}
+</ul>
 
 <form action="/addphone" method="post">
   <input type="tel" pattern="^\d{3}-\d{3}-\d{4}$" placeholder="XXX-XXX-XXXX" name="newphone">
@@ -83,7 +94,26 @@
   <input type="tel" pattern="^\d{3}-\d{3}-\d{4}$" placeholder="type phone number to delete" name="deletephone">
   <input type="submit" value="delete">
 </form>
-
-</ul>
+-->
 </div>
+
+<script>
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '{{ url_for('sstream') }}');
+    xhr.send();
+    var timer;
+    timer = setInterval(function() {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            $( "#loadingmessage" ).remove();
+            var phonenumbers = xhr.responseText.split(',');
+            for(var i = 0;i<phonenumbers.length-1;i++){
+              var phone = $("<li></li>").text(phonenumbers[i]);
+              $("#phonenumbers").append(phone);
+            }
+            clearInterval(timer);
+        }
+    }, 300);
+
+</script>
+</body>
 </html>

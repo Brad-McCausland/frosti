@@ -9,13 +9,17 @@ import sys
 import time
 import subprocess
 
-sys.path.insert(0,"/home/pi/frosti/loggerSrc")
+rootdir = os.path.abspath("..")
+sys.path.insert(0,rootdir + "/loggerSrc")
+sys.path.insert(0,rootdir + "/alertSrc")
+
 import logger
+from alert import authenticate
+
 app=flask.Flask(__name__)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-
 login_manager.login_view = "login"
 
 class User(UserMixin):
@@ -74,7 +78,7 @@ def logout():
 #scipt is a string "script.py"
 def runScript(script,args):
 
-    path = os.path.join(os.path.expanduser('~'),"frosti/scripts/" + script)
+    path = (rootdir + "/scripts/" + script)
     command = ["python3",path]
     for each in args:
         command.append(each)
@@ -82,23 +86,45 @@ def runScript(script,args):
     result = process.stdout.read()
     return result
 
-#Generic read for user_register info. Might should move to own file
-#with methods instead of strings since phone needs processed anyway and the only
-#other one is email
+#Generic read for user_register info. User for reading in phone and emails form file
 def readUserData(type):
     list = []
-    file = open(os.path.join(os.path.expanduser('~'),"frosti/alertSrc/user_register/" + type), 'r')
+    file = open(rootdir + "/alertSrc/user_register/" + type, 'r')
     for line in file:
         if line != '\n':
             list.append(line.split(' ')[0])
     return list
 
+def fetchphones():
+        errorFile = open(rootdir + "/logs/portalTestlogs.txt",'a')
+        sid, token, client = authenticate(errorFile)
+        #Fetch list of registered phones
+        try:
+                caller_ids = client.caller_ids.list()
+        except TwilioRestException as e:
+                return -1
+
+        for each in caller_ids:
+                print(each.phone_number)
+        return 0
 #processes phone numbers so human can read properly
 def readPhoneData():
     list = []
     for number in readUserData("phone.txt"):
         list.append(number[2:5] + '-' + number[5:8] + '-' + number[8:])
     return list
+
+@app.route('/fetchphones')
+def sstream():
+    def foo():
+        errorFile = open("/mnt/e/Dropbox/Docs/frostiGit/frosti/logs/portalTestlogs.txt",'a')
+        sid, token, client = authenticate(errorFile)
+        #Fetch list of registered phones
+        caller_ids = client.caller_ids.list()
+        for number in caller_ids:
+            yield(str(number.phone_number[2:5] + '-' + number.phone_number[5:8] + '-' + number.phone_number[8:]).rstrip()+',')
+
+    return app.response_class(foo(), mimetype='text/plain')
 
 @app.route('/addemail', methods=['POST'])
 def addemail():
@@ -114,21 +140,6 @@ def deletemail():
         arg1 = request.form['deleteemail']
         result = runScript("deleteemail.py",[arg1])
         return redirect(url_for('formresult',scriptResult=result))
-
-@app.route('/addphone', methods=['POST'])
-def addphone():
-    if request.method == 'POST':
-        arg1 = request.form['newphone']
-        arg2 = request.form['scope']
-        result = runScript("addphone.py",[arg1,arg2])
-        return redirect(url_for('formresult',scriptResult=result))
-
-@app.route('/deletephone', methods=['POST'])
-def deletephone():
-    if request.method == 'POST':
-        arg1 = request.form['deletephone']
-        result = runScript("deletephone.py",[arg1])
-        return redirect(url_for('formresult',scriptResult=result)) #'url_for' wants def name(), not @app.route
 
 @app.route("/formresult")
 def formresult():
@@ -165,7 +176,7 @@ def frosti():
 @app.route("/")
 def hello():
     return flask.redirect(flask.url_for('login'))
-
+#
 if __name__ == "__main__":
     app.config["SECRET_KEY"] = '%hwgS\x13\x97\xf4\xee\xf8\xa8< \x11\xd1*\xe8\xecV\x95\xfbeY\xbe'
     app.run(host='0.0.0.0',port=5000,threaded=True)
