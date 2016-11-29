@@ -14,6 +14,14 @@ echo "/home/pi/frosti/netSrc/frosti_server 8001" >> startFrostiServer.sh
 chmod +x startFrostiServer.sh
 update-rc.d startFrostiServer.sh defaults
 
+#start frosti web portal on bootup
+cd /etc/init.d/
+touch startFrostiWeb.sh
+echo "#!/bin/sh" >> startFrostiWeb.sh
+echo "python3 /home/pi/frosti/flask/hello.py" >> startFrostiWeb.sh
+chmod +x startFrostiWeb.sh
+update-rc.d startFrostiWeb.sh defaults
+
 #set timezone
 sudo echo "America/Vancouver" > /etc/timezone
 
