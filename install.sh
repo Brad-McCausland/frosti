@@ -18,7 +18,7 @@ update-rc.d startFrostiServer.sh defaults
 cd /etc/init.d/
 touch startFrostiWeb.sh
 echo "#!/bin/sh" >> startFrostiWeb.sh
-echo "python3 /home/pi/frosti/flask/hello.py" >> startFrostiWeb.sh
+echo "python /home/pi/frosti/flask/hello.py" >> startFrostiWeb.sh
 chmod +x startFrostiWeb.sh
 update-rc.d startFrostiWeb.sh defaults
 
