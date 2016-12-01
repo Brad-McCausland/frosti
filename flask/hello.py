@@ -10,10 +10,11 @@ import time
 import subprocess
 
 rootdir = os.path.abspath("..")
-sys.path.insert(0,rootdir + "/loggerSrc")
-sys.path.insert(0,rootdir + "/alertSrc")
-
+sys.path.append(rootdir + "/loggerSrc")
 import logger
+sys.path.append(rootdir + "/alertSrc")
+
+
 from alert import authenticate
 
 app=flask.Flask(__name__)
