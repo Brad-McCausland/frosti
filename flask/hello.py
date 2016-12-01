@@ -10,9 +10,9 @@ import time
 import subprocess
 
 rootdir = os.path.abspath("..")
-sys.path.append(rootdir + "/loggerSrc")
+sys.path.append("/home/pi/frosti/loggerSrc")
 import logger
-sys.path.append(rootdir + "/alertSrc")
+sys.path.append("/home/pi/frosti/alertSrc")
 
 
 from alert import authenticate
