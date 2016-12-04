@@ -8,4 +8,4 @@
 
 import alert
 
-alert.send("This is a test of the FROSTI alert system. There is no emergency at this time.", "all")
+alert.send("This is a test of the FROSTI Freezer Monitoring Alert System. There is no emergency at this time.", "all")
