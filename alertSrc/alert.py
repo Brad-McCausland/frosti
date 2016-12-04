@@ -122,7 +122,7 @@ def email_alert(sid, token, client, errorText):
 			recipString = recipString + userList[0] + " "
 
 	try:
-		subprocess.call('echo  ' + "\"" + errorText + "\"" + '| mail -s ' + "\"NEW ALERT FROM FROSTI: \"" + ' ' +  recipString,shell=True)
+		subprocess.call('echo  ' + "\"" + errorText + "\"" + '| mail -s ' + "\"NEW ALERT FROM THE FROSTI FREEZER MONITOR: \"" + ' ' +  recipString,shell=True)
 	except OSError as e:
 		return -1
 
