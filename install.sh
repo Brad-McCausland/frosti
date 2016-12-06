@@ -60,3 +60,4 @@ sudo pip3 install flask_login
 
 #additional dependancies
 sudo pip install twilio
+sudo apt-get install mailutils
