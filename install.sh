@@ -57,3 +57,6 @@ sudo echo "AuthLogin=Yes" >> /etc/ssmtp/ssmtp.conf
 sudo apt-get install python3-pip
 sudo pip3 install flask
 sudo pip3 install flask_login
+
+#additional dependancies
+sudo pip install twilio
