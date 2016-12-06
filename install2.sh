@@ -10,12 +10,10 @@ read ACTIVE
 
 cd ~
 crontab -l > mycron
-if [ $ACTIVE == "y" ]
-then
+if [ $ACTIVE == "y" ]; then
 	echo "*/5 * * * * python /home/pi/frosti/frosti_driver.py" >> mycron
 	echo "0 12 1,15 * * python /home/pi/frosti/alertSrc/twilioKeepAlive.py" >> mycron
-elif [$ACTIVE == "n"]
-then
+elif [ $ACTIVE == "n" ]; then
 	# run inactive driver (subject to change)
 	echo "*/5 * * * * python /home/pi/frosti/testDriver.py" >> mycron
 
