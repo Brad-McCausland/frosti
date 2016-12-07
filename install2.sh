@@ -18,7 +18,7 @@ elif [ $ACTIVE == "n" ]; then
 	echo "*/5 * * * * python /home/pi/frosti/testDriver.py" >> mycron
 
 	# sync contact info with active pi
-	echo "0 0 * * * /home/pi/frosti/alertSrc/sync_contacts 127.0.0.1" >> mycron
+	echo "0 0 * * * /home/pi/frosti/alertSrc/sync_contacts.sh 127.0.0.1" >> mycron
 
 	# remove duplicate web server
 	sudo rm /etc/init.d/startFrostiWeb.sh
@@ -32,4 +32,4 @@ echo "1-59/15 7-19 * * * /home/pi/frosti/netSrc/frosti_client 127.0.0.1 8001" >>
 crontab mycron
 rm mycron
 
-echo "cron job added. Don't forget to enter my counterpart's ip in crontab! Did you install twilio? Mailutils?"
+echo "cron job added. Don't forget to enter my counterpart's ip in crontab! Also: make sure the crontab begins and ends with a newline, otherwise the calls can bug out."
