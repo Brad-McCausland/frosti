@@ -16,13 +16,11 @@ from twilio import TwilioException
 #example: freezer temperatue alerts should be called with the
 #'freezer' scope variable. See test.py for proper use.
 
-rootdir = os.path.abspath("..")
-
 #Returns authenticated twilio rest object
 def authenticate(errorFile):
 
 	try:
-		keyFile = open(rootdir+"/alertSrc/keys.txt",'r')
+		keyFile = open("/home/pi/frosti/alertSrc/keys.txt",'r')
 	except IOError:
 		date = datetime.datetime.now()
 		errorFile.write(date.isoformat(" ") + ": Could not find key file\n")
@@ -55,7 +53,7 @@ def send(errorText, scope):
 
 	returnval = 0
 
-	errorFile = open(rootdir+"/logs/alertlogs.txt",'a')
+	errorFile = open("/home/pi/frosti/logs/alertlogs.txt",'a')
 
 	sid, token, client = authenticate(errorFile)
 
@@ -78,7 +76,7 @@ def sms_alert(sid, token, client, errorText):
 
 	returnval = 0
 	#read users
-	userFile = open(rootdir + "/alertSrc/user_register/phone.txt", 'r')
+	userFile = open("/home/pi/frosti/alertSrc/user_register/phone.txt", 'r')
 	users = []
 
 	#load file into list
@@ -106,7 +104,7 @@ def sms_alert(sid, token, client, errorText):
 #alert email users. Retiurn -1 on failure.
 def email_alert(sid, token, client, errorText):
 	#read users
-	userFile = open(rootdir + "/alertSrc/user_register/email.txt", 'r')
+	userFile = open("/home/pi/frosti/alertSrc/user_register/email.txt", 'r')
 	users = []
 	recipString = ''
 
