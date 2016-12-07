@@ -23,7 +23,7 @@ chmod +x startFrostiWeb.sh
 update-rc.d startFrostiWeb.sh defaults
 
 #set timezone
-sudo echo "America/Vancouver" > /etc/timezone
+sudo cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
 #install pip
 sudo apt-get install python-pip
