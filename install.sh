@@ -25,8 +25,11 @@ update-rc.d startFrostiWeb.sh defaults
 #set timezone
 sudo echo "America/Vancouver" > /etc/timezone
 
-#install pip3 and flask for web portal
+#install pip
+sudo apt-get install python-pip
 sudo apt-get install python3-pip
+
+#install pip3 and flask for web portal
 sudo pip3 install flask
 sudo pip3 install flask_login
 
