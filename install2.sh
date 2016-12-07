@@ -18,7 +18,7 @@ elif [ $ACTIVE == "n" ]; then
 	echo "*/5 * * * * python /home/pi/frosti/testDriver.py" >> mycron
 
 	# sync contact info with active pi
-	echo "0 0 * * * /home/pi/frosti/alertSrc/sync_contacts 127.0.0.1" >> mycron
+	echo "0 0 * * * /home/pi/frosti/alertSrc/sync_contacts.sh 127.0.0.1" >> mycron
 
 	# remove duplicate web server
 	sudo rm /etc/init.d/startFrostiWeb.sh
