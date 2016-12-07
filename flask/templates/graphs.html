@@ -4,6 +4,15 @@
 <head>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
     <script src="//www.chartjs.org/assets/Chart.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function() {
+            $("#datepicker").datepicker("option", "dateFormat", "yy-mm-dd");
+        });
+    </script>
 </head>
 
 <title>Frosti</title>
@@ -23,58 +32,72 @@
      <p>
      <table border="0" cellpadding="0" cellspacing="0">
 <tr>
-<td><a class="navbar" href="/"><strong>Home</strong></a></td>
+<td><a class="navbar" href="/"><strong>User Management</strong></a></td>
 <td><a class="navbar" href="/graphs"><strong>Graphs</strong></a></td>
 <td><a class="navbar" href="/logout"><strong>Logout</strong></a></td>
 </tr>
 
 </table>
 
-<body>
-  <div class = "container">
-  <canvas id="liveGraph" width="800" height="300"></canvas>
+<body><h2>{{date}}</h2>
+
+  <p>Date: <input type="text" id="datepicker"></p>
+
+  <form action="/graphs/{{date}}" method="post"><br>
+    <input type="submit" value="Download {{date}}.csv" style="float: right;  padding-right: 60px;">
+  </form>
+
+  <div class = "container" style="width:65%;height=30%">
+
+  <canvas id="liveGraph"></canvas>
   <script>
 var canvas = document.getElementById('liveGraph'),
     canvasContext = canvas.getContext('2d'),
-    startingData = {
+    logData = {
       labels: {{dates|safe}},
       datasets: [
-
           {
-              fillColor: "rgba(220,220,220,0)",
-              strokeColor: "rgba(151,230,205,1)",
-              pointColor: "rgba(151,230,205,1)",
-              pointStrokeColor: "#fff",
+              fillColor: "rgba(0,0,0,0)",
+              strokeColor: "#36b7db",
+              pointColor: "#36b7db",
+              pointStrokeColor: "#f2f2f2",
               data: {{f1|safe}}
           },
           {
-              fillColor: "rgba(220,220,220,0)",
-              strokeColor: "rgba(151,187,205,1)",
-              pointColor: "rgba(151,187,205,1)",
-              pointStrokeColor: "#fff",
+              fillColor: "rgba(0,0,0,0)",
+              strokeColor: "#36db44",
+              pointColor: "#36db44",
+              pointStrokeColor: "#f2f2f2",
               data: {{f2|safe}}
           },
           {
-              fillColor: "rgba(220,220,220,0)",
-              strokeColor: "rgba(200,187,205,1)",
-              pointColor: "rgba(151,187,205,1)",
-              pointStrokeColor: "#fff",
+              fillColor: "rgba(0,0,0,0)",
+              strokeColor: "#bf36db",
+              pointColor: "#bf36db",
+              pointStrokeColor: "#f2f2f2",
               data: {{f3|safe}}
           }
       ]
-    }//,
-  //  latestLabel = 0
+    }
 
-var myLiveChart = new Chart(canvasContext).Line(startingData, {animationSteps: 5});
+var myLiveChart = new Chart(canvasContext).Line(logData, {
+  responsive: true
+});
 
-//wrapped whole thing so that it makes a new request every time.
-//using a real "stream" doesnt work right because chrome likes to not update page
-//until the stream is over for some reason
+$("#datepicker").datepicker({
+    onSelect: function(dateText, inst) {
+        var date = $(this).val();
+        window.location.href = "/graphs/".concat(date);
 
+    }
+});
 
 </script>
 
+
+
 </div>
+
 
 
 </body>

@@ -23,7 +23,7 @@
      <p>
      <table border="0" cellpadding="0" cellspacing="0">
 <tr>
-<td><a class="navbar" href="/"><strong>Home</strong></a></td>
+<td><a class="navbar" href="/"><strong>User Management</strong></a></td>
 <td><a class="navbar" href="/graphs"><strong>Graphs</strong></a></td>
 <td><a class="navbar" href="/logout"><strong>Logout</strong></a></td>
 </tr>
@@ -65,14 +65,12 @@
 
 <div class="center-justified">
   <ul id="phonenumbers">
-  <h3 id="loadingmessage">
+  <!--<h3 id="loadingmessage">
     Loading...
-  </h3>
+  </h3>-->
 </div>
-<form action="https://www.twilio.com/console/phone-numbers/verified" method="post"><br>
-  <input type="submit" value="Register Phones at Twilio">
-</form>
-<!--
+
+
 {% for each in phonenumbers %}
 <li>{{ each }}</li>
 {% else %}
@@ -94,9 +92,11 @@
   <input type="tel" pattern="^\d{3}-\d{3}-\d{4}$" placeholder="type phone number to delete" name="deletephone">
   <input type="submit" value="delete">
 </form>
--->
+<form action="https://www.twilio.com/console/phone-numbers/verified" method="post"><br>
+  <input type="submit" value="Register Phones at Twilio">
+</form>
 </div>
-
+<!--
 <script>
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '{{ url_for('sstream') }}');
@@ -113,7 +113,7 @@
             clearInterval(timer);
         }
     }, 300);
-
+-->
 </script>
 </body>
 </html>

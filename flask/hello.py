@@ -1,4 +1,4 @@
-from flask import Flask, flash, request, render_template, redirect, url_for, Response
+from flask import Flask, flash, request, render_template, redirect, url_for, Response, send_from_directory
 from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
 
 import flask
@@ -8,13 +8,15 @@ import json
 import sys
 import time
 import subprocess
+import datetime
 
-rootdir = os.path.abspath("..")
-sys.path.append("/home/pi/frosti/loggerSrc")
+filedir = os.path.dirname(os.path.abspath(__file__))
+rootdir = filedir[::-1].split('/',1)[1][::-1]
+
+sys.path.append(os.path.abspath(rootdir + "/loggerSrc"))
+sys.path.append(os.path.abspath(rootdir + "/alertSrc"))
+
 import logger
-sys.path.append("/home/pi/frosti/alertSrc")
-
-
 from alert import authenticate
 
 app=flask.Flask(__name__)
@@ -159,13 +161,29 @@ def gstream():
     return app.response_class(foo(), mimetype='text/plain')
 
 @app.route("/graphs")
+def graphredirect():
+    return redirect("/graphs/today")
+
+@app.route("/graphs/<date>",methods=['GET','POST'])
 @login_required
-def graphs():
-    dates = logger.getLogs(10,0,0)
-    f1 = logger.getLogs(10,1,0)
-    f2 = logger.getLogs(10,2,0)
-    f3 = logger.getLogs(10,3,0)
-    return render_template('graphs.html',f1=f1,f2=f2,f3=f3,dates=dates)
+def graphs(date):
+
+    if request.method == 'POST':
+        if date == "today":
+            date = datetime.datetime.now().strftime("%Y-%m-%d")
+        return send_from_directory(rootdir + "/logs",date+'.csv',as_attachment=True,attachment_filename=date+'.csv')
+
+    if date != "today":
+        if logger.logExist(date):
+            dates,f1,f2,f3 = logger.getLogDate(date)
+        else:
+            return redirect("/graphs/today")
+    else:
+        dates,f1,f2,f3 = logger.getLogDate("today")
+
+    return render_template('graphs.html',date=date,dates=dates,f1=f1,f2=f2,f3=f3)
+
+
 
 @app.route("/frosti")
 @login_required
