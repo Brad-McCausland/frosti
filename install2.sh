@@ -32,4 +32,4 @@ echo "1-59/15 7-19 * * * /home/pi/frosti/netSrc/frosti_client 127.0.0.1 8001" >>
 crontab mycron
 rm mycron
 
-echo "cron job added. Don't forget to enter my counterpart's ip in crontab! Did you install twilio? Mailutils?"
+echo "cron job added. Don't forget to enter my counterpart's ip in crontab! Also: make sure the crontab begins and ends with a newline, otherwise the calls can bug out."
