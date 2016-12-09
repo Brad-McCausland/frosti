@@ -14,8 +14,8 @@ if [ $ACTIVE == "y" ]; then
 	echo "*/5 * * * * python /home/pi/frosti/frosti_driver.py" >> mycron
 	echo "0 12 1,15 * * python /home/pi/frosti/alertSrc/twilioKeepAlive.py" >> mycron
 elif [ $ACTIVE == "n" ]; then
-	# run inactive driver (subject to change)
-	echo "*/5 * * * * python /home/pi/frosti/testDriver.py" >> mycron
+	# run driver at 2 minute offset
+	echo "2-59/5 * * * * python /home/pi/frosti/frosti_driver.py" >> mycron
 
 	# sync contact info with active pi
 	echo "0 0 * * * /home/pi/frosti/alertSrc/sync_contacts.sh 127.0.0.1" >> mycron

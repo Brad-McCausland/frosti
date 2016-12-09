@@ -23,7 +23,7 @@ chmod +x startFrostiWeb.sh
 update-rc.d startFrostiWeb.sh defaults
 
 #set timezone
-sudo cp /usr/share/zoneinfo/Europe/London /etc/localtime
+sudo cp /usr/share/zoneinfo/America/Vancouver /etc/localtime
 
 #install pip
 sudo apt-get install python-pip
@@ -67,3 +67,4 @@ sudo echo "AuthPass=frosti492" >> /etc/ssmtp/ssmtp.conf
 sudo echo "UseTLS=Yes" >> /etc/ssmtp/ssmtp.conf
 sudo echo "UseSTARTTLS=Yes" >> /etc/ssmtp/ssmtp.conf
 sudo echo "AuthLogin=Yes" >> /etc/ssmtp/ssmtp.conf
+
