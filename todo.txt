@@ -1,8 +1,0 @@
-To do list:
-
-install twilio library:
-	https://www.twilio.com/docs/libraries/python
-	pip install twilio
-
-install mailutils:
-	http://rianjs.net/2013/08/send-email-from-linux-server-using-gmail-and-ubuntu-two-factor-authentication
